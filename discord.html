@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine-Download - Discord</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --primary: #55FF55;
+            --secondary: #8B8B8B;
+            --background: #545454;
+            --text: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background-color: var(--secondary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: url('https://example.com/path/to/minecraft_background.png');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: rgba(84, 84, 84, 0.8);
+            border-bottom: 4px solid #373737;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 24px;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 10px;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        nav ul li a:hover::before {
+            transform: scaleX(1);
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 5px var(--primary);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            text-shadow: 2px 2px #3F3F3F, 0 0 10px var(--primary);
+            font-size: 48px;
+            margin-top: 40px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .content {
+            background-color: rgba(84, 84, 84, 0.8);
+            border: 4px solid #373737;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            text-align: center;
+            transition: transform 0.3s;
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+        }
+
+        .content:hover {
+            transform: translateY(-5px);
+        }
+
+        .discord-info {
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .discord-button {
+            display: inline-block;
+            background-color: #7289DA;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 24px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .discord-button:hover {
+            background-color: #5E73BC;
+            transform: scale(1.1);
+        }
+
+        .discord-icon {
+            vertical-align: middle;
+            margin-right: 10px;
+            transition: transform 0.3s;
+        }
+
+        .discord-button:hover .discord-icon {
+            transform: rotate(360deg);
+        }
+
+        #musicControl {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            transition: all 0.3s;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        #musicControl:hover {
+            background-color: #3FBF3F;
+            transform: scale(1.1);
+        }
+
+        #languageSelector {
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 5px 10px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #languageSelector:hover {
+            background-color: #3FBF3F;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="translate" data-translate="home">Inicio</a></li>
+                <li><a href="descargas.html" class="translate" data-translate="downloads">Descargas</a></li>
+                <li><a href="discord.html" class="translate" data-translate="discord">Discord</a></li>
+            </ul>
+            <select id="languageSelector">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+                <option value="ru">Русский</option>
+            </select>
+        </nav>
+    </header>
+    <div class="container">
+        <h1 class="translate" data-translate="joinDiscord">Únete a nuestra comunidad en Discord</h1>
+        <div class="content">
+            <div class="discord-info">
+                <p class="translate" data-translate="discordInfo">¡Únete a nuestro servidor de Discord para estar al día con las últimas novedades, compartir experiencias y obtener ayuda de otros jugadores!</p>
+            </div>
+            <a href="https://discord.gg/mine-download" class="discord-button" target="_blank">
+                <img src="https://img.icons8.com/color/48/000000/discord-logo.png" alt="Discord Logo" class="discord-icon" width="32" height="32">
+                <span class="translate" data-translate="joinServer">Unirse al servidor de Mine-Download</span>
+            </a>
+        </div>
+    </div>
+    <audio id="backgroundMusic" loop>
+        <source src="https://example.com/path/to/minecraft_background_music.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+    <button id="musicControl" class="translate" data-translate="musicOff">Música: Off</button>
+    <script>
+        const music = document.getElementById('backgroundMusic');
+        const musicControl = document.getElementById('musicControl');
+        let isMusicPlaying = false;
+
+        musicControl.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                music.pause();
+                musicControl.textContent = translations[currentLanguage].musicOff;
+            } else {
+                music.play();
+                musicControl.textContent = translations[currentLanguage].musicOn;
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Traducciones
+        const translations = {
+            es: {
+                home: "Inicio",
+                downloads: "Descargas",
+                discord: "Discord",
+                joinDiscord: "Únete a nuestra comunidad en Discord",
+                discordInfo: "¡Únete a nuestro servidor de Discord para estar al día con las últimas novedades, compartir experiencias y obtener ayuda de otros jugadores!",
+                joinServer: "Unirse al servidor de Mine-Download",
+                musicOff: "Música: Off",
+                musicOn: "Música: On"
+            },
+            en: {
+                home: "Home",
+                downloads: "Downloads",
+                discord: "Discord",
+                joinDiscord: "Join our Discord community",
+                discordInfo: "Join our Discord server to stay up to date with the latest news, share experiences, and get help from other players!",
+                joinServer: "Join Mine-Download server",
+                musicOff: "Music: Off",
+                musicOn: "Music: On"
+            },
+            ru: {
+                home: "Главная",
+                downloads: "Загрузки",
+                discord: "Discord",
+                joinDiscord: "Присоединяйтесь к нашему сообществу в Discord",
+                discordInfo: "Присоединяйтесь к нашему серверу Discord, чтобы быть в курсе последних новостей, делиться опытом и получать помощь от других игроков!",
+                joinServer: "Присоединиться к серверу Mine-Download",
+                musicOff: "Музыка: Выкл",
+                musicOn: "Музыка: Вкл"
+            }
+        };
+
+        let currentLanguage = 'es';
+
+        function translatePage(language) {
+            currentLanguage = language;
+            document.querySelectorAll('.translate').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[language][key]) {
+                    element.textContent = translations[language][key];
+                }
+            });
+            if (isMusicPlaying) {
+                musicControl.textContent = translations[language].musicOn;
+            } else {
+                musicControl.textContent = translations[language].musicOff;
+            }
+        }
+
+        document.getElementById('languageSelector').addEventListener('change', (event) => {
+            translatePage(event.target.value);
+        });
+    </script>
+</body>
+</html>
