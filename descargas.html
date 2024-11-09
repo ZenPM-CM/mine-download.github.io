@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine-Download - Descargas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --primary: #55FF55;
+            --secondary: #8B8B8B;
+            --background: #545454;
+            --text: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background-color: var(--secondary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: url('https://example.com/path/to/minecraft_background.png');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: rgba(84, 84, 84, 0.8);
+            border-bottom: 4px solid #373737;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 24px;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 10px;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        nav ul li a:hover::before {
+            transform: scaleX(1);
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 5px var(--primary);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: var(--primary);
+            text-shadow: 2px 2px #3F3F3F, 0 0 10px var(--primary);
+        }
+
+        h1 {
+            font-size: 60px;
+            margin-top: 40px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-top: 30px;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 2px 2px #3F3F3F, 0 0 10px var(--primary);
+            }
+            to {
+                text-shadow: 2px 2px #3F3F3F, 0 0 20px var(--primary), 0 0 30px var(--primary);
+            }
+        }
+
+        .content {
+            background-color: rgba(84, 84, 84, 0.8);
+            border: 4px solid #373737;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+        }
+
+        .content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(85,255,85,0.3);
+        }
+
+        .download-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .download-item {
+            background-color: rgba(107, 107, 107, 0.8);
+            border: 2px solid #373737;
+            margin-bottom: 20px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .download-item::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(45deg, transparent, rgba(85,255,85,0.2), transparent);
+            transition: all 0.5s;
+        }
+
+        .download-item:hover::before {
+            top: 100%;
+            left: 100%;
+        }
+
+        .download-item:hover {
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 0 20px rgba(85,255,85,0.5);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .file-icon {
+            width: 48px;
+            height: 48px;
+            margin-right: 15px;
+            transition: transform 0.5s;
+        }
+
+        .download-item:hover .file-icon {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        .file-name {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .file-size {
+            color: #AAAAAA;
+            font-size: 18px;
+        }
+
+        .download-button {
+            background-color: var(--primary);
+            color: #000;
+            border: 2px solid #373737;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .download-button:hover {
+            background-color: #3FBF3F;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(85,255,85,0.5);
+        }
+
+        #musicControl {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            transition: all 0.3s;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        #musicControl:hover {
+            background-color: #3FBF3F;
+            transform: scale(1.1);
+        }
+
+        .ad-space {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: rgba(84, 84, 84, 0.8);
+            border: 2px solid #373737;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .ad-space h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        #languageSelector {
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 5px 10px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #languageSelector:hover {
+            background-color: #3FBF3F;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .download-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .download-button {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="translate" data-translate="home">Inicio</a></li>
+                <li><a href="descargas.html" class="translate" data-translate="downloads">Descargas</a></li>
+                <li><a href="discord.html" class="translate" data-translate="discord">Discord</a></li>
+            </ul>
+            <select id="languageSelector">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+                <option value="ru">Русский</option>
+            </select>
+        </nav>
+    </header>
+    <div class="container">
+        <h1 class="translate" data-translate="downloadZone">Zona de Descargas</h1>
+        <div class="content">
+            <h2>Minecraft Bedrock</h2>
+            <ul class="download-list">
+                <li class="download-item">
+                    <div class="file-info">
+                        <img src="https://img.icons8.com/color/48/000000/minecraft-grass-cube.png" alt="Minecraft Bedrock" class="file-icon">
+                        <div>
+                            <div class="file-name">Minecraft Bedrock 1.20.1</div>
+                            <div class="file-size">250 MB</div>
+                        </div>
+                    </div>
+                    <a href="/downloads/minecraft_bedrock_1.20.1.exe" class="download-button translate" data-translate="download" download>Descargar</a>
+                </li>
+                <li class="download-item">
+                    <div class="file-info">
+                        <img src="https://img.icons8.com/color/48/000000/minecraft-grass-cube.png" alt="Minecraft Bedrock" class="file-icon">
+                        <div>
+                            <div class="file-name">Minecraft Bedrock 1.19.2</div>
+                            <div class="file-size">245 MB</div>
+                        </div>
+                    </div>
+                    <a href="/downloads/minecraft_bedrock_1.19.2.exe" class="download-button translate" data-translate="download" download>Descargar</a>
+                </li>
+            </ul>
+
+            <h2>Minecraft Pocket Edition</h2>
+            <ul class="download-list">
+                <li class="download-item">
+                    <div class="file-info">
+                        <img src="https://img.icons8.com/color/48/000000/minecraft-creeper.png" alt="Minecraft PE" class="file-icon">
+                        <div>
+                            <div class="file-name">Minecraft PE 1.20.0</div>
+                            <div class="file-size">150 MB</div>
+                        </div>
+                    </div>
+                    <a href="/downloads/minecraft_pe_1.20.0.apk" class="download-button translate" data-translate="download" download>Descargar</a>
+                </li>
+                <li class="download-item">
+                    <div class="file-info">
+                        <img src="https://img.icons8.com/color/48/000000/minecraft-creeper.png" alt="Minecraft PE" class="file-icon">
+                        <div>
+                            <div class="file-name">Minecraft PE 1.19.1</div>
+                            <div class="file-size">145 MB</div>
+                        </div>
+                    </div>
+                    <a href="/downloads/minecraft_pe_1.19.1.apk" class="download-button translate" data-translate="download" download>Descargar</a>
+                </li>
+            </ul>
+        </div>
+        <div class="ad-space">
+            <h2 class="translate" data-translate="ads">Anuncios</h2>
+            <!-- Espacio para el anuncio de AdSense -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- Anuncio Mine-Download -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+    <audio id="backgroundMusic" loop>
+        <source src="https://example.com/path/to/minecraft_background_music.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+    <button id="musicControl" class="translate" data-translate="musicOff">Música: Off</button>
+    <script>
+        const music = document.getElementById('backgroundMusic');
+        const musicControl = document.getElementById('musicControl');
+        let isMusicPlaying = false;
+
+        musicControl.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                music.pause();
+                musicControl.textContent = translations[currentLanguage].musicOff;
+            } else {
+                music.play();
+                musicControl.textContent = translations[currentLanguage].musicOn;
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Animación de aparición para los elementos de descarga
+        const downloadItems = document.querySelectorAll('.download-item');
+        downloadItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-50px)';
+            setTimeout(() => {
+                item.style.transition = 'opacity 0.5s, transform 0.5s';
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+            }, 200 * (index + 1));
+        });
+
+        // Traducciones
+        const translations = {
+            es: {
+                home: "Inicio",
+                downloads: "Descargas",
+                discord: "Discord",
+                downloadZone: "Zona de Descargas",
+                download: "Descargar",
+                ads: "Anuncios",
+                musicOff: "Música: Off",
+                musicOn: "Música: On"
+            },
+            en: {
+                home: "Home",
+                downloads: "Downloads",
+                discord: "Discord",
+                downloadZone: "Download Zone",
+                download: "Download",
+                ads: "Advertisements",
+                musicOff: "Music: Off",
+                musicOn: "Music: On"
+            },
+            ru: {
+                home: "Главная",
+                downloads: "Загрузки",
+                discord: "Discord",
+                downloadZone: "Зона загрузки",
+                download: "Скачать",
+                ads: "Реклама",
+                musicOff: "Музыка: Выкл",
+                musicOn: "Музыка: Вкл"
+            }
+        };
+
+        let currentLanguage = 'es';
+
+        function translatePage(language) {
+            currentLanguage = language;
+            document.querySelectorAll('.translate').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[language][key]) {
+                    element.textContent = translations[language][key];
+                }
+            });
+            if (isMusicPlaying) {
+                musicControl.textContent = translations[language].musicOn;
+            } else {
+                musicControl.textContent = translations[language].musicOff;
+            }
+        }
+
+        document.getElementById('languageSelector').addEventListener('change', (event) => {
+            translatePage(event.target.value);
+        });
+    </script>
+</body>
+</html>
