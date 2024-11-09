@@ -3,50 +3,417 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OptiJuegos</title>
+    <title>Mine-Download - Inicio</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --primary: #55FF55;
+            --secondary: #8B8B8B;
+            --background: #545454;
+            --text: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'VT323', monospace;
+            background-color: var(--secondary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: url('https://example.com/path/to/minecraft_background.png');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: rgba(84, 84, 84, 0.8);
+            border-bottom: 4px solid #373737;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
         }
-        .container {
-            text-align: center;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        nav ul li {
+            margin: 0 15px;
         }
-        h1 {
-            color: #333;
-        }
-        p {
-            color: #666;
-            margin: 10px 0;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 10px;
-            background-color: #007bff;
-            color: white;
+
+        nav ul li a {
+            color: var(--text);
             text-decoration: none;
-            border-radius: 5px;
+            font-weight: bold;
+            font-size: 24px;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 10px;
         }
-        .button:hover {
-            background-color: #0056b3;
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        nav ul li a:hover::before {
+            transform: scaleX(1);
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 5px var(--primary);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            text-shadow: 2px 2px #3F3F3F, 0 0 10px var(--primary);
+            font-size: 60px;
+            margin-top: 40px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 2px 2px #3F3F3F, 0 0 10px var(--primary);
+            }
+            to {
+                text-shadow: 2px 2px #3F3F3F, 0 0 20px var(--primary), 0 0 30px var(--primary);
+            }
+        }
+
+        .content {
+            background-color: rgba(84, 84, 84, 0.8);
+            border: 4px solid #373737;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+        }
+
+        .content:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(85,255,85,0.3);
+        }
+
+        .welcome-message {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .featured-downloads {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .download-item {
+            background-color: rgba(107, 107, 107, 0.8);
+            border: 2px solid #373737;
+            padding: 20px;
+            margin: 10px;
+            width: calc(33.33% - 20px);
+            text-align: center;
+            transition: all 0.3s;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .download-item::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(45deg, transparent, rgba(85,255,85,0.2), transparent);
+            transition: all 0.5s;
+        }
+
+        .download-item:hover::before {
+            top: 100%;
+            left: 100%;
+        }
+
+        .download-item:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 0 20px rgba(85,255,85,0.5);
+        }
+
+        .download-item img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            transition: transform 0.5s;
+        }
+
+        .download-item:hover img {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        .download-item h3 {
+            margin: 10px 0;
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .download-item p {
+            font-size: 18px;
+        }
+
+        #musicControl {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            transition: all 0.3s;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        #musicControl:hover {
+            background-color: #3FBF3F;
+            transform: scale(1.1);
+        }
+
+        .ad-space {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: rgba(84, 84, 84, 0.8);
+            border: 2px solid #373737;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .ad-space h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        #languageSelector {
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 5px 10px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #languageSelector:hover {
+            background-color: #3FBF3F;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .download-item {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .download-item {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="translate" data-translate="home">Inicio</a></li>
+                <li><a href="descargas.html" class="translate" data-translate="downloads">Descargas</a></li>
+                <li><a href="discord.html" class="translate" data-translate="discord">Discord</a></li>
+            </ul>
+            <select id="languageSelector">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+                <option value="ru">Русский</option>
+            </select>
+        </nav>
+    </header>
     <div class="container">
-        <h1>Bienvenido a OptiJuegos</h1>
-        <p>Explora nuestros proyectos de juegos y tecnología.</p>
-        <a href="https://github.com/OptiJuegos" class="button">Visitar Repositorio</a>
+        <h1 class="translate" data-translate="welcome">Bienvenido a Mine-Download</h1>
+        <div class="content">
+            <p class="welcome-message translate" data-translate="welcomeMessage">Tu fuente confiable para descargas de Minecraft Bedrock y Pocket Edition</p>
+            <div class="featured-downloads">
+                <div class="download-item">
+                    <img src="https://img.icons8.com/color/48/000000/minecraft-grass-cube.png" alt="Minecraft Bedrock">
+                    <h3>Minecraft Bedrock</h3>
+                    <p class="translate" data-translate="latestVersion">Última versión disponible</p>
+                </div>
+                <div class="download-item">
+                    <img src="https://img.icons8.com/color/48/000000/minecraft-creeper.png" alt="Minecraft Pocket Edition">
+                    <h3>Minecraft Pocket Edition</h3>
+                    <p class="translate" data-translate="mobileDevices">Para dispositivos móviles</p>
+                </div>
+                <div class="download-item">
+                    <img src="https://img.icons8.com/color/48/000000/minecraft-pickaxe.png" alt="Mods populares">
+                    <h3 class="translate" data-translate="popularMods">Mods Populares</h3>
+                    <p class="translate" data-translate="enhanceExperience">Mejora tu experiencia de juego</p>
+                </div>
+            </div>
+        </div>
+        <div class="ad-space">
+            <h2 class="translate" data-translate="ads">Anuncios</h2>
+            <!-- Espacio para el anuncio de AdSense -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- Anuncio Mine-Download -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
     </div>
+    <audio id="backgroundMusic" loop>
+        <source src="https://example.com/path/to/minecraft_background_music.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+    <button id="musicControl" class="translate" data-translate="musicOff">Música: Off</button>
+    <script>
+        const music = document.getElementById('backgroundMusic');
+        const musicControl = document.getElementById('musicControl');
+        let isMusicPlaying = false;
+
+        musicControl.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                music.pause();
+                musicControl.textContent = translations[currentLanguage].musicOff;
+            } else {
+                music.play();
+                musicControl.textContent = translations[currentLanguage].musicOn;
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Animación de aparición para los elementos de descarga
+        const downloadItems = document.querySelectorAll('.download-item');
+        downloadItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(50px)';
+            setTimeout(() => {
+                item.style.transition = 'opacity 0.5s, transform 0.5s';
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, 300 * (index + 1));
+        });
+
+        // Traducciones
+        const translations = {
+            es: {
+                home: "Inicio",
+                downloads: "Descargas",
+                discord: "Discord",
+                welcome: "Bienvenido a Mine-Download",
+                welcomeMessage: "Tu fuente confiable para descargas de Minecraft Bedrock y Pocket Edition",
+                latestVersion: "Última versión disponible",
+                mobileDevices: "Para dispositivos móviles",
+                popularMods: "Mods Populares",
+                enhanceExperience: "Mejora tu experiencia de juego",
+                ads: "Anuncios",
+                musicOff: "Música: Off",
+                musicOn: "Música: On"
+            },
+            en: {
+                home: "Home",
+                downloads: "Downloads",
+                discord: "Discord",
+                welcome: "Welcome to Mine-Download",
+                welcomeMessage: "Your trusted source for Minecraft Bedrock and Pocket Edition downloads",
+                latestVersion: "Latest version available",
+                mobileDevices: "For mobile devices",
+                popularMods: "Popular Mods",
+                enhanceExperience: "Enhance your gaming experience",
+                ads: "Advertisements",
+                musicOff: "Music: Off",
+                musicOn: "Music: On"
+            },
+            ru: {
+                home: "Главная",
+                downloads: "Загрузки",
+                discord: "Discord",
+                welcome: "Добро пожаловать на Mine-Download",
+                welcomeMessage: "Ваш надежный источник загрузок Minecraft Bedrock и Pocket Edition",
+                latestVersion: "Доступна последняя версия",
+                mobileDevices: "Для мобильных устройств",
+                popularMods: "Популярные моды",
+                enhanceExperience: "Улучшите свой игровой опыт",
+                ads: "Реклама",
+                musicOff: "Музыка: Выкл",
+                musicOn: "Музыка: Вкл"
+            }
+        };
+
+        let currentLanguage = 'es';
+
+        function translatePage(language) {
+            currentLanguage = language;
+            document.querySelectorAll('.translate').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[language][key]) {
+                    element.textContent = translations[language][key];
+                }
+            });
+            if (isMusicPlaying) {
+                musicControl.textContent = translations[language].musicOn;
+            } else {
+                musicControl.textContent = translations[language].musicOff;
+            }
+        }
+
+        document.getElementById('languageSelector').addEventListener('change', (event) => {
+            translatePage(event.target.value);
+        });
+    </script>
 </body>
 </html>
