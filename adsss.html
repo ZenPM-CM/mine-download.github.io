@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detección de AdBlock</title>
+    <style>
+        /* Estilo para el mensaje de aviso */
+        .adblock-privacy-message {
+            display: none; /* Oculto por defecto */
+            background-color: #1E1E1E;
+            color: #FF3333;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 600px;
+            margin: 30px auto;
+            border: 1px solid #FF3333;
+        }
+
+        /* Botón de acción */
+        .adblock-privacy-message button {
+            background-color: #FF4500;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        .adblock-privacy-message button:hover {
+            background-color: #FF6347;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="adblock-privacy-message" id="adblock-message">
+        <h2>Aviso sobre Bloqueo de Anuncios y Privacidad</h2>
+        <p>Para apoyar a Mine-Download, por favor desactiva el bloqueador de anuncios. Este sitio utiliza cookies y cumple con las políticas de privacidad de Google AdSense.</p>
+        <button onclick="document.getElementById('adblock-message').style.display='none'">Entendido</button>
+    </div>
+
+    <script>
+        // Creamos un elemento de prueba para detectar el AdBlock
+        let adBlockTest = document.createElement('div');
+        adBlockTest.className = 'adsbox';
+        adBlockTest.style.display = 'none';
+        document.body.appendChild(adBlockTest);
+
+        // Verificamos si el elemento de prueba ha sido bloqueado
+        setTimeout(function() {
+            if (adBlockTest.offsetHeight === 0) {
+                // Si el elemento está bloqueado, mostramos el mensaje de advertencia
+                document.getElementById('adblock-message').style.display = 'block';
+            }
+            // Eliminamos el elemento de prueba
+            adBlockTest.remove();
+        }, 100);
+    </script>
+
+</body>
+</html>
