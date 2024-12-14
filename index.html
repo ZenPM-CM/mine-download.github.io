@@ -1,6 +1,4 @@
-<html>
-<head>
-<base href="." />
+<html><head><base href="." />
 <title>Welcome to Azura Network</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
@@ -118,7 +116,6 @@ input:focus {
     outline: none;
     box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
     transform: scale(1.02);
-    background: rgba(26, 26, 74, 0.8);
 }
 
 button {
@@ -193,52 +190,164 @@ button:active {
     pointer-events: none;
     z-index: -1;
 }
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(0, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: float-particle 15s infinite linear;
+}
+
+@keyframes float-particle {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #00ffff }
+}
 </style>
 </head>
 <body>
 
+<div class="background-particles" id="particles"></div>
+<div id="christmas-particles"></div>
+
 <div class="container">
     <div class="typewriter">
-        <h1>Welcome to Azura Network</h1>
+        <h1 id="greeting">Hola Usuario</h1>
     </div>
 
-    <button onclick="playSound()">Play Sound and Redirect</button>
-    <div class="message" id="message">Redirecting soon...</div>
+    <input type="text" id="username" placeholder="✨ Ingresa tu nombre aquí ✨" autocomplete="off">
+    <button onclick="updateName()">Ya puse mi nick/nombre</button>
+
+    <div id="welcomeMessages">
+        <p class="message" id="msg1"></p>
+        <p class="message" id="msg2"></p>
+        <p class="message" id="msg3"></p>
+        <p class="message" id="msg4"></p>
+    </div>
+    
+    <audio id="victorySound">
+        <source src="https://zenpm-cm.github.io/mine-download.github.io/FNAF%20-%206%20AM%20sound%20[%20ezmp3.cc%20].mp3" type="audio/mp3">
+    </audio>
 </div>
 
-<audio id="sound" src="your-audio-file.mp3" preload="auto"></audio>
-
 <script>
-    const audio = document.getElementById('sound');
-    const message = document.getElementById('message');
-
-    // Función para reproducir el sonido y redirigir después
-    function playSound() {
-        audio.play();
-        message.classList.add('visible'); // Muestra el mensaje
-        audio.onended = () => {
-            // Redirigir después de que se termine el sonido
-            window.location.href = 'https://zenpm-cm.github.io/mine-download.github.io/inicio.html';
-        };
+function createParticles() {
+    const container = document.getElementById('particles');
+    for(let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.opacity = Math.random();
+        container.appendChild(particle);
     }
+}
 
-    // Crear partículas de Navidad
-    function createParticles() {
-        const particleCount = 30;
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('christmas-particle');
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.animationDuration = Math.random() * 4 + 3 + 's';
-            document.querySelector('.background-particles').appendChild(particle);
+function createChristmasParticles() {
+    const container = document.getElementById('christmas-particles');
+    const particles = ['❄️', '⭐', '🔔', '🎄', '🎁'];
+    const classes = ['snowflake', 'star', 'bell', 'tree', 'gift'];
+    
+    setInterval(() => {
+        const particle = document.createElement('div');
+        const index = Math.floor(Math.random() * particles.length);
+        particle.className = `christmas-particle ${classes[index]}`;
+        particle.textContent = particles[index];
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        container.appendChild(particle);
+
+        setTimeout(() => {
+            particle.remove();
+        }, 10000);
+    }, 200);
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function showMessages(username) {
+    const messages = [
+        `Oh ${username}... ✨`,
+        "Veo que visitaste nuestra página web :D! 🌟",
+        "Pues... 💫",
+        "¡Bienvenido a Azura Network! 🚀"
+    ];
+    
+    const messageElements = document.querySelectorAll('.message');
+    const audio = document.getElementById('victorySound');
+    
+    for(let i = 0; i < messages.length; i++) {
+        await sleep(1200);
+        messageElements[i].textContent = messages[i];
+        messageElements[i].classList.add('visible');
+        
+        if (i === messages.length - 1) {
+            try {
+                await audio.play();
+                setTimeout(() => {
+                    window.location.href = 'https://zenpm-cm.github.io/mine-download.github.io/inicio.html';
+                }, 10000); // Redirects after 10 seconds
+            } catch (err) {
+                console.log('Audio playback failed:', err);
+                setTimeout(() => {
+                    window.location.href = 'https://zenpm-cm.github.io/mine-download.github.io/inicio.html';
+                }, 10000);
+            }
         }
     }
+}
 
-    // Crear las partículas al cargar la página
-    createParticles();
+function updateName() {
+    const username = document.getElementById('username').value;
+    if(username.trim() !== '') {
+        document.getElementById('greeting').textContent = `Hola ${username}`;
+        document.getElementById('username').style.display = 'none';
+        document.querySelector('button').style.display = 'none';
+        showMessages(username);
+    } else {
+        const input = document.getElementById('username');
+        input.style.animation = 'shake 0.5s ease-in-out';
+        setTimeout(() => input.style.animation = '', 500);
+        input.placeholder = '⚠️ Por favor ingresa un nombre ⚠️';
+    }
+}
+
+document.getElementById('username').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        updateName();
+    }
+});
+
+// Try to play audio on page load (most browsers will block this)
+window.addEventListener('load', function() {
+    const audio = document.getElementById('victorySound');
+    audio.volume = 1.0; // Ensure full volume
+    try {
+        audio.play().catch(function(error) {
+            console.log("Auto-play prevented:", error);
+        });
+    } catch (err) {
+        console.log("Audio play error:", err);
+    }
+});
+
+createParticles();
+createChristmasParticles();
 </script>
 
-<div class="background-particles"></div>
-
-</body>
-</html>
+</body></html>
