@@ -227,7 +227,7 @@ button:hover {
         <p class="message" id="msg4"></p>
     </div>
     
-    <audio id="victorySound">
+    <audio id="victorySound" autoplay>
         <source src="FNAF - 6 AM sound [ ezmp3.cc ].mp3" type="audio/mp3">
     </audio>
 </div>
@@ -248,7 +248,7 @@ function createParticles() {
 function createChristmasParticles() {
     const container = document.getElementById('christmas-particles');
     const particles = ['❄️', '⭐', '🔔', '🎄', '🎁'];
-    const classes = ['snowflake', 'star', 'bell', 'tree', 'gift'];
+    const classes = ['snowflake', 'star', 'bell', 'snowflake', 'star'];
     
     setInterval(() => {
         const particle = document.createElement('div');
@@ -304,7 +304,9 @@ function updateName() {
 window.onload = () => {
     createParticles();
     createChristmasParticles();
+    playSound();  // Esto hace que el sonido suene automáticamente al cargar la página
 }
 </script>
+
 </body>
 </html>
