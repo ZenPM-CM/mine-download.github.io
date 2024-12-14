@@ -1,0 +1,1598 @@
+<html><head><base href=""><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Azura Network - Tienda</title><style>
+/* General styles */
+body {
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 100%);
+  color: #00ffff;
+  display: flex;
+}
+
+/* Hamburger Menu */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(26, 26, 74, 0.4);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid rgba(0, 255, 255, 0.1);
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.menu-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.hamburger {
+  width: 30px;
+  height: 3px;
+  background: #00ff99;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 3px;
+  background: #00ff99;
+  transition: all 0.3s;
+}
+
+.hamburger::before { top: -8px; }
+.hamburger::after { top: 8px; }
+
+.menu-toggle.active .hamburger {
+  background: transparent;
+}
+
+.menu-toggle.active .hamburger::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.menu-toggle.active .hamburger::after {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+.nav-links {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: left 0.5s ease;
+  backdrop-filter: blur(10px);
+}
+
+.nav-links.active {
+  left: 0;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.5rem 1rem;
+}
+
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #00ff99;
+  transition: width 0.3s;
+}
+
+.nav-links a:hover {
+  color: #00ff99;
+  transform: scale(1.1);
+}
+
+.nav-links a:hover::before {
+  width: 100%;
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 280px;
+  background: rgba(10, 10, 42, 0.95);
+  padding: 30px;
+  margin-top: 60px;
+  border-right: 2px solid rgba(0, 255, 255, 0.1);
+  min-height: calc(100vh - 60px);
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+.category {
+  margin-bottom: 25px;
+}
+
+.category-title {
+  font-size: 1.2em;
+  color: #00ffff;
+  cursor: pointer;
+  padding: 12px 15px;
+  background: rgba(26, 26, 74, 0.9);
+  border: 2px solid rgba(0, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-title::after {
+  content: '▼';
+  font-size: 0.8em;
+  transition: transform 0.3s;
+  color: #58a6ff;
+}
+
+.category-title:hover {
+  background: rgba(26, 26, 74, 0.7);
+  border-color: #00ffff;
+}
+
+.subcategories {
+  display: none;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.subcategories.active {
+  display: block;
+  animation: slideDown 0.3s ease-out;
+}
+
+.subcategory {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: rgba(255, 255, 255, 0.7);
+  border-left: 2px solid rgba(88, 166, 255, 0.2);
+  margin: 5px 0;
+}
+
+.subcategory:hover {
+  color: #58a6ff;
+  transform: translateX(10px);
+  background: rgba(33, 38, 45, 0.7);
+  border-radius: 0 5px 5px 0;
+}
+
+/* Main content */
+.main-content {
+  flex-grow: 1;
+  padding: 100px 50px;
+  text-align: center;
+  background: radial-gradient(circle at center, rgba(88, 166, 255, 0.05) 0%, transparent 70%);
+}
+
+.welcome-title {
+  font-size: 3.5em;
+  margin-bottom: 30px;
+  color: #00ffff;
+  text-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.8),
+    0 0 20px rgba(0, 255, 255, 0.5),
+    0 0 30px rgba(0, 255, 255, 0.3);
+  animation: glow 2s ease-in-out infinite alternate, float 4s ease-in-out infinite;
+  letter-spacing: 2px;
+}
+
+.welcome-subtitle {
+  font-size: 1.6em;
+  color: #00ffff;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.8;
+  padding: 20px;
+  background: rgba(26, 26, 74, 0.4);
+  border: 2px solid rgba(0, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Rank cards styles */
+.rank-cards {
+  display: none;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.rank-card {
+  background: rgba(26, 26, 74, 0.4);
+  border-radius: 15px;
+  padding: 20px;
+  transition: transform 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(0, 255, 255, 0.1);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+  animation: float 6s ease-in-out infinite;
+}
+
+.rank-card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 0 50px rgba(0, 255, 255, 0.4);
+}
+
+.rank-card.aura {
+  position: relative;
+  overflow: hidden;
+}
+
+.rank-card.aura::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-radial-gradient(
+    circle at center,
+    rgba(80, 250, 123, 0.1),
+    transparent 20px
+  );
+  animation: natureMoveAura 15s linear infinite;
+  pointer-events: none;
+}
+
+.rank-card.aura .nature-particle {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  opacity: 0;
+  animation: floatingNature 6s ease-in-out infinite;
+}
+
+.rank-card.nova {
+  position: relative;
+  overflow: hidden;
+}
+
+.rank-card.nova::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-radial-gradient(
+    circle at center,
+    rgba(139, 233, 253, 0.1),
+    transparent 10px
+  );
+  animation: waterMove 15s linear infinite;
+  pointer-events: none;
+}
+
+.rank-card.nova .water-particle {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+@keyframes waterMove {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(360deg) scale(1.2);
+    opacity: 0.3;
+  }
+}
+
+/* Lyx Stone Effects */
+.rank-card.lyx {
+  position: relative;
+  overflow: hidden;
+}
+
+.rank-card.lyx::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 184, 108, 0.1),
+    transparent 20px
+  );
+  animation: stoneMove 20s linear infinite;
+  pointer-events: none;
+}
+
+.rank-card.lyx .stone-particle {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+@keyframes stoneMove {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100%) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Fenix Fire Effects */
+.rank-card.fenix {
+  position: relative;
+  overflow: hidden;
+}
+
+.rank-card.fenix::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-radial-gradient(
+    circle at center,
+    rgba(255, 85, 85, 0.1),
+    transparent 15px
+  );
+  animation: fireMove 10s linear infinite;
+  pointer-events: none;
+}
+
+.rank-card.fenix .fire-particle {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+@keyframes fireMove {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.5) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Six Galaxy Effects */
+.rank-card.six {
+  position: relative;
+  overflow: hidden;
+}
+
+.rank-card.six::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(189, 147, 249, 0.1) 0%,
+    transparent 70%
+  );
+  animation: galaxyMove 25s linear infinite;
+  pointer-events: none;
+}
+
+.rank-card.six .galaxy-particle {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+@keyframes galaxyMove {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.3;
+  }
+}
+
+/* Particle animations for all ranks */
+@keyframes floatingParticles {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translate(100px, -100px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes floatingParticles2 {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translate(-100px, -100px) rotate(-360deg); opacity: 0; }
+}
+
+@keyframes floatingParticles3 {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  50% { opacity: 0.8; transform: scale(1.5); }
+  100% { transform: translate(0, -100px) scale(1); opacity: 0; }
+}
+
+/* Additional rank cards */
+.rank-card.nova {
+  border: 2px solid #8be9fd;
+  box-shadow: 0 0 15px rgba(139, 233, 253, 0.3);
+}
+
+.rank-card.lyx {
+  border: 2px solid #ffb86c;
+  box-shadow: 0 0 15px rgba(255, 184, 108, 0.3);
+}
+
+.rank-card.fenix {
+  border: 2px solid #ff5555;
+  box-shadow: 0 0 15px rgba(255, 85, 85, 0.3);
+}
+
+.rank-card.six {
+  border: 2px solid #bd93f9;
+  box-shadow: 0 0 15px rgba(189, 147, 249, 0.3);
+}
+
+.rank-title {
+  font-size: 1.8em;
+  margin-bottom: 15px;
+  color: #00ffff;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0;
+}
+
+.benefits-list li {
+  margin: 10px 0;
+  padding-left: 25px;
+  position: relative;
+  transform: translateX(0);
+  transition: all 0.3s ease;
+}
+
+.benefits-list li:hover {
+  transform: translateX(10px);
+  color: #58a6ff;
+}
+
+.benefits-list li::before {
+  content: '✨';
+  position: absolute;
+  left: 0;
+}
+
+.buy-button {
+  background: linear-gradient(45deg, #0a0a2a, #1a1a4a, #0a0a2a);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: #00ffff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  margin-top: 15px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+.buy-button:hover {
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+  border-color: #00ffff;
+}
+
+.proceed-button {
+  background: linear-gradient(45deg, #0a0a2a, #1a1a4a, #0a0a2a);
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  padding: 15px 30px;
+  border-radius: 25px;
+  color: #00ffff;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.proceed-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(80, 250, 123, 0.4);
+}
+
+/* Enhanced modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, rgba(26, 26, 74, 0.95) 0%, rgba(10, 10, 42, 0.95) 100%);
+  border: 2px solid rgba(0, 255, 255, 0.2);
+  box-shadow: 
+    0 0 30px rgba(0, 255, 255, 0.2),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh; /* Limit height to 90% of viewport height */
+  padding: 30px;
+  border-radius: 25px;
+  position: relative;
+  animation: modalPop 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transform-origin: center;
+  overflow-y: auto; /* Add scrolling if content is too tall */
+  margin: 20px; /* Add some margin around the modal */
+}
+
+/* Add responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .modal-rank-title {
+    font-size: 2em;
+  }
+
+  .modal-price {
+    font-size: 2em;
+  }
+
+  .modal-benefits {
+    padding: 15px;
+  }
+
+  .proceed-button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 15px;
+    margin: 5px;
+  }
+
+  .modal-rank-title {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+
+  .modal-close {
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+
+  .modal-benefits h3 {
+    font-size: 1.2em;
+  }
+
+  .modal-benefits .benefits-list li {
+    font-size: 1em;
+    padding-left: 25px;
+  }
+
+  .modal-price {
+    font-size: 1.8em;
+    margin: 20px 0;
+  }
+
+  .proceed-button {
+    padding: 12px 24px;
+    font-size: 1.1em;
+  }
+}
+
+/* Add smooth scrolling to modal content */
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 255, 255, 0.3) rgba(26, 26, 74, 0.4);
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(26, 26, 74, 0.4);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+@keyframes modalPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  70% {
+    transform: scale(1.05) translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes benefitSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes titleGlow {
+  from {
+    text-shadow: 
+      0 0 10px rgba(0, 255, 255, 0.8),
+      0 0 20px rgba(0, 255, 255, 0.4);
+  }
+  to {
+    text-shadow: 
+      0 0 20px rgba(0, 255, 255, 0.8),
+      0 0 40px rgba(0, 255, 255, 0.4);
+  }
+}
+
+@keyframes priceScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Loading animation styles */
+.loading {
+  display: none;
+  font-size: 2em;
+  margin: 20px 0;
+  color: #00ffff;
+}
+
+.loading::after {
+  content: '...';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60% { content: '...'; }
+  80%, 100% { content: ''; }
+}
+
+/* Ranking animations */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* New keyframes for nature effects */
+@keyframes natureMoveAura {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+    opacity: 0.2;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.1;
+  }
+}
+
+@keyframes floatingNature {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(20px, -30px) rotate(180deg) scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(40px, -60px) rotate(360deg) scale(0.8);
+    opacity: 0;
+  }
+}
+</style></head><body>
+
+<nav class="navbar">
+  <div class="menu-toggle">
+    <div class="hamburger"></div>
+  </div>
+  <div class="nav-links">
+    <a href="https://example.com/inicio">Inicio</a>
+    <a href="https://example.com/tienda">Tienda</a>
+    <a href="https://example.com/foro">Foro</a>
+    <a href="https://example.com/contacto">Contacto</a>
+  </div>
+</nav>
+
+<div class="sidebar">
+  <div class="category">
+    <div class="category-title">Rangos VIP</div>
+    <div class="subcategories">
+      <div class="subcategory">RANGOS PERMANENTES</div>
+      <div class="subcategory">RANGOS TEMPORALES</div>
+    </div>
+  </div>
+
+  <div class="category">
+    <div class="category-title">Survival</div>
+    <div class="subcategories">
+      <div class="subcategory">PROTECCIONES</div>
+      <div class="subcategory">COMANDOS</div>
+      <div class="subcategory">DINERO</div>
+    </div>
+  </div>
+</div>
+
+<div class="main-content">
+  <h1 class="welcome-title">Bienvenido a La tienda de Azura Network</h1>
+  <p class="welcome-subtitle">Nuestra tienda oficial donde podrás comprar muchas cosas para ti</p>
+  
+  <div class="loading">Cargando</div>
+  
+  <div class="rank-cards">
+    <div class="rank-card aura">
+      <h2 class="rank-title">🟢 Rango: Aura</h2>
+      <h3>✨ Beneficios:</h3>
+      <ul class="benefits-list">
+        <li>Acceso a comandos básicos exclusivos 🛠️</li>
+        <li>Prefijo especial en el chat ✨</li>
+      </ul>
+      <div class="nature-leaf">🍃</div>
+      <div class="nature-leaf">🌿</div>
+      <div class="nature-leaf">🍀</div>
+      <div class="nature-leaf">🌱</div>
+      <button class="buy-button">Comprar Aura</button>
+    </div>
+
+    <div class="rank-card nova">
+      <h2 class="rank-title">🔵 Rango: Nova</h2>
+      <h3>🌟 Beneficios:</h3>
+      <ul class="benefits-list">
+        <li>Partículas visuales exclusivas 🌀</li>
+        <li>Comando exclusivo: /warp especial 🌌</li>
+      </ul>
+      <button class="buy-button">Comprar Nova</button>
+    </div>
+
+    <div class="rank-card lyx">
+      <h2 class="rank-title">🔶 Rango: Lyx</h2>
+      <h3>✨ Beneficios:</h3>
+      <ul class="benefits-list">
+        <li>Flay (Vuelo temporal) 🚀</li>
+        <li>Multiplicador de experiencia (x2) 📈</li>
+        <li>Nombre resaltado en el chat 🌟</li>
+      </ul>
+      <button class="buy-button">Comprar Lyx</button>
+    </div>
+
+    <div class="rank-card fenix">
+      <h2 class="rank-title">🔥 Rango: Fénix 🐦‍🔥</h2>
+      <h3>🌟 Beneficios:</h3>
+      <ul class="benefits-list">
+        <li>Vuelo permanente ✈️</li>
+        <li>Acceso a áreas especiales del servidor 🏰</li>
+        <li>Mascota exclusiva 🐕</li>
+      </ul>
+      <button class="buy-button">Comprar Fénix</button>
+    </div>
+
+    <div class="rank-card six">
+      <h2 class="rank-title">💎 Rango: Six</h2>
+      <h3>🛠️ Beneficios:</h3>
+      <ul class="benefits-list">
+        <li>Bau virtual 🧰</li>
+        <li>Partículas de personalización únicas 🌈</li>
+        <li>Fly ilimitado 🕊️</li>
+        <li>Kits especiales 🔥</li>
+        <li>Acceso a salas VIP ✨</li>
+      </ul>
+      <button class="buy-button">Comprar Six</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add this modal HTML just before the closing body tag -->
+<div class="modal">
+  <div class="modal-content">
+    <span class="modal-close">×</span>
+    <h2 class="modal-rank-title"></h2>
+    <div class="modal-benefits">
+      <h3>✨ Beneficios Detallados:</h3>
+      <ul class="benefits-list"></ul>
+    </div>
+    <div class="modal-price">
+      <span class="price-amount"></span>
+    </div>
+    <div class="modal-payment-methods">
+      <p>💳 Aceptamos PayPal, Stripe y más métodos de pago!</p>
+    </div>
+    <button class="proceed-button">Proceder con la Compra</button>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.querySelector('.modal'); // Add this line to ensure modal is defined
+
+  // Hamburger menu
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
+  });
+
+  // Sidebar categories
+  const categories = document.querySelectorAll('.category-title');
+  
+  categories.forEach(category => {
+    category.addEventListener('click', () => {
+      const subcategories = category.nextElementSibling;
+      subcategories.classList.toggle('active');
+      
+      // Rotate arrow when category is active
+      category.style.transform = subcategories.classList.contains('active') 
+        ? 'translateY(-2px) rotate(0)'
+        : 'translateY(-2px)';
+    });
+  });
+
+  // Add new functionality for rank loading
+  const welcomeTitle = document.querySelector('.welcome-title');
+  const welcomeSubtitle = document.querySelector('.welcome-subtitle');
+  const loadingElement = document.querySelector('.loading');
+  const rankCards = document.querySelector('.rank-cards');
+
+  // Function to create particles
+  function createParticles() {
+    // Aura nature particles with more variety
+    const auraCards = document.querySelectorAll('.rank-card.aura');
+    const natureEmojis = ['🍃', '🌿', '🍀', '🌱', '🌸', '🌺', '🍂', '🌹', '🌼', '🌻'];
+    
+    auraCards.forEach(card => {
+      // Clear existing particles
+      const existingParticles = card.querySelectorAll('.nature-particle');
+      existingParticles.forEach(particle => particle.remove());
+      
+      // Add new enhanced particles
+      for(let i = 0; i < 12; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'nature-particle';
+        particle.innerHTML = natureEmojis[Math.floor(Math.random() * natureEmojis.length)];
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = (Math.random() * 5) + 's';
+        particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+        card.appendChild(particle);
+      }
+    });
+    
+    // Nova water particles
+    const novaCards = document.querySelectorAll('.rank-card.nova');
+    novaCards.forEach(card => {
+      for(let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'water-particle';
+        particle.innerHTML = '💧';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animation = `floatingParticles ${5 + Math.random() * 5}s linear infinite`;
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        card.appendChild(particle);
+      }
+    });
+
+    // Lyx stone particles
+    const lyxCards = document.querySelectorAll('.rank-card.lyx');
+    lyxCards.forEach(card => {
+      for(let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'stone-particle';
+        particle.innerHTML = '🔸';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animation = `floatingParticles2 ${6 + Math.random() * 5}s linear infinite`;
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        card.appendChild(particle);
+      }
+    });
+
+    // Fenix fire particles
+    const fenixCards = document.querySelectorAll('.rank-card.fenix');
+    fenixCards.forEach(card => {
+      for(let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'fire-particle';
+        particle.innerHTML = '🔥';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animation = `floatingParticles ${4 + Math.random() * 3}s linear infinite`;
+        particle.style.animationDelay = Math.random() * 3 + 's';
+        card.appendChild(particle);
+      }
+    });
+
+    // Six galaxy particles
+    const sixCards = document.querySelectorAll('.rank-card.six');
+    sixCards.forEach(card => {
+      for(let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'galaxy-particle';
+        particle.innerHTML = '✨';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animation = `floatingParticles3 ${7 + Math.random() * 5}s linear infinite`;
+        particle.style.animationDelay = Math.random() * 5 + 's';
+        card.appendChild(particle);
+      }
+    });
+  }
+
+  // Find the RANGOS PERMANENTES and RANGOS TEMPORALES subcategories by text content
+  document.querySelectorAll('.subcategory').forEach(subcategory => {
+    subcategory.addEventListener('click', () => {
+      const text = subcategory.textContent.trim();
+      if (text === 'RANGOS PERMANENTES' || text === 'RANGOS TEMPORALES') {
+        // Hide welcome elements
+        welcomeTitle.style.display = 'none';
+        welcomeSubtitle.style.display = 'none';
+        
+        // Show loading
+        loadingElement.style.display = 'block';
+        rankCards.style.display = 'none';
+
+        // Clear existing rank cards
+        rankCards.innerHTML = '';
+
+        // Create appropriate rank cards based on selection
+        setTimeout(() => {
+          if (text === 'RANGOS TEMPORALES') {
+            // Add temporary rank cards
+            rankCards.innerHTML = `
+              <div class="rank-card aura">
+                <h2 class="rank-title">🟢 Rango: Aura Temporal</h2>
+                <h3>✨ Beneficios:</h3>
+                <ul class="benefits-list">
+                  <li>Acceso a comandos básicos exclusivos 🛠️</li>
+                  <li>Prefijo especial en el chat ✨</li>
+                  <li>Duración: 30 días ⏱️</li>
+                </ul>
+                <div class="nature-leaf">🍃</div>
+                <div class="nature-leaf">🌿</div>
+                <div class="nature-leaf">🍀</div>
+                <div class="nature-leaf">🌱</div>
+                <button class="buy-button">Comprar Aura-T</button>
+              </div>
+
+              <div class="rank-card nova">
+                <h2 class="rank-title">🔵 Rango: Nova Temporal</h2>
+                <h3>🌟 Beneficios:</h3>
+                <ul class="benefits-list">
+                  <li>Partículas visuales exclusivas 🌀</li>
+                  <li>Comando exclusivo: /warp especial 🌌</li>
+                  <li>Duración: 30 días ⏱️</li>
+                </ul>
+                <button class="buy-button">Comprar Nova-T</button>
+              </div>
+
+              <div class="rank-card lyx">
+                <h2 class="rank-title">🔶 Rango: Lyx Temporal</h2>
+                <h3>✨ Beneficios:</h3>
+                <ul class="benefits-list">
+                  <li>Flay (Vuelo temporal) 🚀</li>
+                  <li>Multiplicador de experiencia (x2) 📈</li>
+                  <li>Duración: 30 días ⏱️</li>
+                </ul>
+                <button class="buy-button">Comprar Lyx-T</button>
+              </div>
+
+              <div class="rank-card fenix">
+                <h2 class="rank-title">🔥 Rango: Fénix Temporal</h2>
+                <h3>🌟 Beneficios:</h3>
+                <ul class="benefits-list">
+                  <li>Vuelo permanente ✈️</li>
+                  <li>Acceso a áreas especiales del servidor 🏰</li>
+                  <li>Duración: 30 días ⏱️</li>
+                </ul>
+                <button class="buy-button">Comprar Fénix-T</button>
+              </div>
+
+              <div class="rank-card six">
+                <h2 class="rank-title">💎 Rango: Six Temporal</h2>
+                <h3>🛠️ Beneficios:</h3>
+                <ul class="benefits-list">
+                  <li>Todos los beneficios VIP ⭐</li>
+                  <li>Acceso total a características 🌟</li>
+                  <li>Duración: 30 días ⏱️</li>
+                </ul>
+                <button class="buy-button">Comprar Six-T</button>
+              </div>
+            `;
+          } else if (text === 'RANGOS PERMANENTES') {
+            // Add permanent rank cards
+            rankCards.innerHTML = `
+              <div class="rank-card aura">
+                <h2 class="rank-title">🟢 Rango: Aura</h2>
+                <h3>✨ Beneficios:</h3>
+                <ul class="benefits-list">
+                  <li>Acceso a comandos básicos exclusivos 🛠️</li>
+                  <li>Prefijo especial en el chat ✨</li>
+                </ul>
+                <div class="nature-leaf">🍃</div>
+                <div class="nature-leaf">🌿</div>
+                <div class="nature-leaf">🍀</div>
+                <div class="nature-leaf">🌱</div>
+                <button class="buy-button">Comprar Aura</button>
+              </div>
+
+              <div class="rank-card nova">
+                <h2 class="rank-title">🔵 Rango: Nova</h2>
+                <h3>🌟 Beneficios:</h3>
+                <ul class="benefits-list">
+                  <li>Partículas visuales exclusivas 🌀</li>
+                  <li>Comando exclusivo: /warp especial 🌌</li>
+                </ul>
+                <button class="buy-button">Comprar Nova</button>
+              </div>
+
+              <div class="rank-card lyx">
+                <h2 class="rank-title">🔶 Rango: Lyx</h2>
+                <h3>✨ Beneficios:</h3>
+                <ul class="benefits-list">
+                  <li>Flay (Vuelo temporal) 🚀</li>
+                  <li>Multiplicador de experiencia (x2) 📈</li>
+                  <li>Nombre resaltado en el chat 🌟</li>
+                </ul>
+                <button class="buy-button">Comprar Lyx</button>
+              </div>
+
+              <div class="rank-card fenix">
+                <h2 class="rank-title">🔥 Rango: Fénix 🐦‍🔥</h2>
+                <h3>🌟 Beneficios:</h3>
+                <ul class="benefits-list">
+                  <li>Vuelo permanente ✈️</li>
+                  <li>Acceso a áreas especiales del servidor 🏰</li>
+                  <li>Mascota exclusiva 🐕</li>
+                </ul>
+                <button class="buy-button">Comprar Fénix</button>
+              </div>
+
+              <div class="rank-card six">
+                <h2 class="rank-title">💎 Rango: Six</h2>
+                <h3>🛠️ Beneficios:</h3>
+                <ul class="benefits-list">
+                  <li>Bau virtual 🧰</li>
+                  <li>Partículas de personalización únicas 🌈</li>
+                  <li>Fly ilimitado 🕊️</li>
+                  <li>Kits especiales 🔥</li>
+                  <li>Acceso a salas VIP ✨</li>
+                </ul>
+                <button class="buy-button">Comprar Six</button>
+              </div>
+            `;
+          }
+          
+          loadingElement.style.display = 'none';
+          rankCards.style.display = 'grid';
+          
+          // Add this line after the rank cards are displayed
+          createParticles();
+          
+          // Reattach event listeners for new buy buttons
+          attachBuyButtonListeners();
+        }, 2000);
+      }
+      
+      if (text === 'PROTECCIONES') {
+        welcomeTitle.style.display = 'none';
+        welcomeSubtitle.style.display = 'none';
+        
+        loadingElement.style.display = 'block';
+        rankCards.style.display = 'none';
+
+        setTimeout(() => {
+          rankCards.innerHTML = `
+            <div class="rank-card six">
+              <h2 class="rank-title">🌌 Galaxic Rock</h2>
+              <h3>✨ Características:</h3>
+              <ul class="benefits-list">
+                <li>🛡️ Piedra de protección de dimensiones 100x100</li>
+                <li>✨ Otorga el efecto de poción Resistencia al Fuego (🔥) mientras estás cerca</li>
+                <li>🌌 Protección garantizada contra griefing</li>
+                <li>⚡ Sistema anti-TNT incorporado</li>
+              </ul>
+              <button class="buy-button">Comprar Galaxic Rock</button>
+            </div>
+
+            <div class="rank-card fenix">
+              <h2 class="rank-title">🔥 Fenix Rock</h2>
+              <h3>✨ Características:</h3>
+              <ul class="benefits-list">
+                <li>🛡️ Piedra de protección de dimensiones 120x120</li>
+                <li>✨ Otorga el efecto de poción Regeneración (💖) al permanecer en su rango</li>
+                <li>🔥 Protección superior contra griefing</li>
+                <li>⚡ Sistema anti-TNT mejorado</li>
+              </ul>
+              <button class="buy-button">Comprar Fenix Rock</button>
+            </div>
+          `;
+          
+          loadingElement.style.display = 'none';
+          rankCards.style.display = 'grid';
+          
+          // Add particles and attach button listeners
+          createParticles();
+          attachBuyButtonListeners();
+        }, 2000);
+      }
+
+      if (text === 'COMANDOS') {
+        welcomeTitle.style.display = 'none';
+        welcomeSubtitle.style.display = 'none';
+        
+        loadingElement.style.display = 'block';
+        rankCards.style.display = 'none';
+
+        setTimeout(() => {
+          rankCards.innerHTML = `
+            <div class="rank-card six">
+              <h2 class="rank-title">🌌 Galaxic Commands</h2>
+              <h3>💻 Características:</h3>
+              <ul class="benefits-list">
+                <li>/home 🏠: Teletransportarte a tu hogar</li>
+                <li>/spawn 🌟: Volver al punto de aparición</li>
+                <li>/tpa ✨: Solicitar teletransporte a otro jugador</li>
+                <li>/msg 💬: Enviar mensajes privados a otros jugadores</li>
+                <li>/sethome 🏡: Establecer tu punto de hogar personal</li>
+                <li>/help ❓: Obtener información de ayuda sobre los comandos</li>
+              </ul>
+              <button class="buy-button">Comprar Galaxic Commands</button>
+            </div>
+
+            <div class="rank-card fenix">
+              <h2 class="rank-title">⚡ Lyx Commands</h2>
+              <h3>💻 Características:</h3>
+              <ul class="benefits-list">
+                <li>/fly 🕊️: Activar o desactivar el vuelo</li>
+                <li>/heal 💖: Recuperar tu salud al instante</li>
+                <li>/vanish 👻: Hacerte invisible para otros jugadores</li>
+                <li>/nick 🎭: Cambiar tu nombre visible en el juego</li>
+                <li>/god 🔱: Activar el modo invencible</li>
+                <li>/back 🔄: Volver al lugar donde moriste</li>
+              </ul>
+              <button class="buy-button">Comprar Lyx Commands</button>
+            </div>
+          `;
+          
+          loadingElement.style.display = 'none';
+          rankCards.style.display = 'grid';
+          
+          createParticles();
+          attachBuyButtonListeners();
+        }, 2000);
+      }
+
+      if (text === 'DINERO') {
+        welcomeTitle.style.display = 'none';
+        welcomeSubtitle.style.display = 'none';
+        
+        loadingElement.style.display = 'block';
+        rankCards.style.display = 'none';
+
+        setTimeout(() => {
+          rankCards.innerHTML = `
+            <div class="rank-card nova">
+              <h2 class="rank-title">💰 100.000 Az</h2>
+              <h3>✨ Características:</h3>
+              <ul class="benefits-list">
+                <li>✨ Obtén 100.000 monedas Az</li>
+                <li>🎁 Beneficio: Comando /back para regresar al lugar donde moriste</li>
+              </ul>
+              <button class="buy-button">Comprar 100.000 Az</button>
+            </div>
+
+            <div class="rank-card fenix">
+              <h2 class="rank-title">💰 500.000 Az</h2>
+              <h3>✨ Características:</h3>
+              <ul class="benefits-list">
+                <li>✨ Obtén 500.000 monedas Az</li>
+                <li>🎁 Comando /back para regresar al lugar donde moriste</li>
+                <li>🎁 Comando /nick para cambiar tu nombre visible</li>
+              </ul>
+              <button class="buy-button">Comprar 500.000 Az</button>
+            </div>
+
+            <div class="rank-card six">
+              <h2 class="rank-title">💰 1.000.000 Az</h2>
+              <h3>✨ Características:</h3>
+              <ul class="benefits-list">
+                <li>✨ Obtén 1.000.000 monedas Az</li>
+                <li>🎁 Comando /back para regresar al lugar donde moriste</li>
+                <li>🎁 Comando /nick para cambiar tu nombre visible</li>
+                <li>🎁 Comando /heal para recuperar tu salud al instante</li>
+              </ul>
+              <button class="buy-button">Comprar 1.000.000 Az</button>
+            </div>
+          `;
+          
+          loadingElement.style.display = 'none';
+          rankCards.style.display = 'grid';
+          
+          createParticles();
+          attachBuyButtonListeners();
+        }, 2000);
+      }
+    });
+  });
+
+  // Update the attachBuyButtonListeners function for proper handling of both ranks and protections
+  function attachBuyButtonListeners() {
+    const buyButtons = document.querySelectorAll('.buy-button');
+    
+    buyButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const rankCard = e.target.closest('.rank-card');
+        const rankTitleFull = rankCard.querySelector('.rank-title').textContent;
+        let type, name;
+
+        // Check if it's a protection, command, money package or rank
+        if (rankTitleFull.includes('Rock')) {
+          type = 'protection';
+          name = rankTitleFull.split(' ')[1];
+        } else if (rankTitleFull.includes('Commands')) {
+          type = 'command';
+          name = rankTitleFull.split(' ')[1];
+        } else if (rankTitleFull.includes('Az')) {
+          type = 'money';
+          name = rankTitleFull.split(' ')[1];
+        } else {
+          type = 'rank';
+          name = rankTitleFull.split(':')[1].trim().split(' ')[0];
+        }
+
+        const modalTitle = document.querySelector('.modal-rank-title');
+        const benefitsList = document.querySelector('.modal .benefits-list');
+        const priceAmount = document.querySelector('.price-amount');
+        
+        const details = type === 'protection' ? protectionDetails[name] :
+                       type === 'command' ? commandDetails[name] :
+                       type === 'money' ? moneyDetails[name] :
+                       rankDetails[name];
+        
+        if (details) {
+          modalTitle.textContent = rankTitleFull;
+          priceAmount.textContent = details.price;
+          
+          benefitsList.innerHTML = '';
+          details.benefits.forEach(benefit => {
+            const li = document.createElement('li');
+            li.textContent = benefit;
+            benefitsList.appendChild(li);
+          });
+          
+          // Ensure modal is shown with flex display
+          modal.style.display = 'flex';
+        }
+      });
+    });
+  }
+
+  const rankDetails = {
+    'Aura': {
+      price: '$5.99',
+      benefits: [
+        'Acceso a comandos básicos exclusivos 🛠️',
+        'Prefijo especial en el chat ✨',
+        'Chat VIP exclusivo 💬',
+        'Conexión prioritaria al servidor ⚡',
+        '2 homes adicionales 🏠'
+      ]
+    },
+    'Nova': {
+      price: '$9.99',
+      benefits: [
+        'Partículas visuales exclusivas 🌀',
+        'Comando exclusivo: /warp especial 🌌',
+        'Todos los beneficios de Aura ✨',
+        '5 homes adicionales 🏠',
+        'Acceso a tienda exclusiva 🏪'
+      ]
+    },
+    'Lyx': {
+      price: '$14.99',
+      benefits: [
+        'Flay (Vuelo temporal) 🚀',
+        'Multiplicador de experiencia (x2) 📈',
+        'Nombre resaltado en el chat 🌟',
+        'Todos los beneficios de Nova ✨',
+        'Mascotas exclusivas 🐾',
+        'Kit mensual especial 📦'
+      ]
+    },
+    'Fénix': {
+      price: '$24.99',
+      benefits: [
+        'Vuelo permanente ✈️',
+        'Acceso a áreas especiales del servidor 🏰',
+        'Mascota exclusiva 🐕',
+        'Todos los beneficios de Lyx ✨',
+        'Comandos de personalización avanzados 🎮',
+        'Efectos visuales únicos 🌈',
+        'Acceso anticipado a eventos 🎉'
+      ]
+    },
+    'Six': {
+      price: '$39.99',
+      benefits: [
+        'Bau virtual 🧰',
+        'Partículas de personalización únicas 🌈',
+        'Fly ilimitado 🕊️',
+        'Kits especiales 🔥',
+        'Acceso a salas VIP ✨',
+        'Todos los beneficios anteriores ⭐',
+        'Soporte prioritario 24/7 🎧',
+        'Tag personalizado 🏷️',
+        'Acceso a beta de nuevas características 🚀'
+      ]
+    },
+    // Temporary ranks
+    'Aura-T': {
+      price: '$2.99/mes',
+      benefits: [
+        'Acceso a comandos básicos exclusivos 🛠️',
+        'Prefijo especial en el chat ✨',
+        'Chat VIP exclusivo 💬',
+        'Conexión prioritaria al servidor ⚡',
+        '2 homes adicionales 🏠',
+        'Duración: 30 días ⏱️'
+      ]
+    },
+    'Nova-T': {
+      price: '$4.99/mes',
+      benefits: [
+        'Partículas visuales exclusivas 🌀',
+        'Comando exclusivo: /warp especial 🌌',
+        'Todos los beneficios de Aura ✨',
+        '5 homes adicionales 🏠',
+        'Acceso a tienda exclusiva 🏪',
+        'Duración: 30 días ⏱️'
+      ]
+    },
+    'Lyx-T': {
+      price: '$7.99/mes',
+      benefits: [
+        'Flay (Vuelo temporal) 🚀',
+        'Multiplicador de experiencia (x2) 📈',
+        'Nombre resaltado en el chat 🌟',
+        'Todos los beneficios de Nova ✨',
+        'Mascotas exclusivas 🐾',
+        'Kit mensual especial 📦',
+        'Duración: 30 días ⏱️'
+      ]
+    },
+    'Fénix-T': {
+      price: '$12.99/mes',
+      benefits: [
+        'Vuelo permanente ✈️',
+        'Acceso a áreas especiales del servidor 🏰',
+        'Mascota exclusiva 🐕',
+        'Todos los beneficios de Lyx ✨',
+        'Comandos de personalización avanzados 🎮',
+        'Efectos visuales únicos 🌈',
+        'Duración: 30 días ⏱️'
+      ]
+    },
+    'Six-T': {
+      price: '$19.99/mes',
+      benefits: [
+        'Bau virtual 🧰',
+        'Partículas de personalización únicas 🌈',
+        'Fly ilimitado 🕊️',
+        'Kits especiales 🔥',
+        'Acceso a salas VIP ✨',
+        'Todos los beneficios anteriores ⭐',
+        'Soporte prioritario 24/7 🎧',
+        'Tag personalizado 🏷️',
+        'Duración: 30 días ⏱️'
+      ]
+    }
+  };
+
+  // Add the protection details object
+  const protectionDetails = {
+    'Galaxic': {
+      price: '$19.99',
+      benefits: [
+        '🛡️ Piedra de protección de dimensiones 100x100',
+        '✨ Otorga el efecto de poción Resistencia al Fuego (🔥) mientras estás cerca',
+        '🌌 Protección garantizada contra griefing',
+        '⚡ Sistema anti-TNT incorporado',
+        '🎮 Panel de control de accesos'
+      ]
+    },
+    'Fenix': {
+      price: '$24.99', 
+      benefits: [
+        '🛡️ Piedra de protección de dimensiones 120x120',
+        '✨ Otorga el efecto de poción Regeneración (💖) al permanecer en su rango',
+        '🔥 Protección superior contra griefing',
+        '⚡ Sistema anti-TNT mejorado',
+        '🎮 Panel de control de accesos avanzado',
+        '🌟 Personalización de efectos visuales'
+      ]
+    }
+  };
+
+  // Add command details
+  const commandDetails = {
+    'Galaxic': {
+      price: '$9.99',
+      benefits: [
+        '/home 🏠: Teletransportarte a tu hogar',
+        '/spawn 🌟: Volver al punto de aparición',
+        '/tpa ✨: Solicitar teletransporte a otro jugador',
+        '/msg 💬: Enviar mensajes privados a otros jugadores',
+        '/sethome 🏡: Establecer tu punto de hogar personal',
+        '/help ❓: Obtener información de ayuda sobre los comandos',
+        '✨ Acceso permanente a los comandos',
+        '🔄 Actualizaciones gratuitas de nuevos comandos'
+      ]
+    },
+    'Lyx': {
+      price: '$14.99',
+      benefits: [
+        '/fly 🕊️: Activar o desactivar el vuelo',
+        '/heal 💖: Recuperar tu salud al instante',
+        '/vanish 👻: Hacerte invisible para otros jugadores',
+        '/nick 🎭: Cambiar tu nombre visible en el juego',
+        '/god 🔱: Activar el modo invencible',
+        '/back 🔄: Volver al lugar donde moriste',
+        '✨ Acceso permanente a los comandos',
+        '🔄 Actualizaciones gratuitas de nuevos comandos',
+        '💫 Incluye todos los comandos Galaxic'
+      ]
+    }
+  };
+
+  const moneyDetails = {
+    '100.000': {
+      price: '$4.99',
+      benefits: [
+        '✨ Obtén 100.000 monedas Az',
+        '🎁 Comando /back para regresar al lugar donde moriste',
+        '💎 Entrega instantánea',
+        '🔒 Transacción segura garantizada'
+      ]
+    },
+    '500.000': {
+      price: '$19.99',
+      benefits: [
+        '✨ Obtén 500.000 monedas Az',
+        '🎁 Comando /back para regresar al lugar donde moriste',
+        '🎁 Comando /nick para cambiar tu nombre visible',
+        '💎 Entrega instantánea',
+        '🔒 Transacción segura garantizada',
+        '💫 Bonus de 50.000 Az extra'
+      ]
+    },
+    '1.000.000': {
+      price: '$34.99',
+      benefits: [
+        '✨ Obtén 1.000.000 monedas Az',
+        '🎁 Comando /back para regresar al lugar donde moriste',
+        '🎁 Comando /nick para cambiar tu nombre visible',
+        '🎁 Comando /heal para recuperar tu salud al instante',
+        '💎 Entrega instantánea',
+        '🔒 Transacción segura garantizada',
+        '💫 Bonus de 150.000 Az extra',
+        '🌟 20% de descuento en tu próxima compra'
+      ]
+    }
+  };
+
+  const modalClose = document.querySelector('.modal-close');
+
+  // Close modal when clicking the X
+  modalClose.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  // Close modal when clicking outside
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+  document.querySelector('.proceed-button').addEventListener('click', () => {
+    window.open('https://example.com/checkout', '_blank');
+  });
+});
+</script>
+
+</body></html>
