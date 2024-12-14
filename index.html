@@ -138,6 +138,39 @@ button:hover {
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
 }
 
+.christmas-particle {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    animation: fall linear infinite;
+}
+
+.snowflake {
+    color: #fff;
+    text-shadow: 0 0 5px #fff;
+}
+
+.star {
+    color: #FFD700;
+    text-shadow: 0 0 5px #FFD700;
+}
+
+.bell {
+    color: #FFB90F;
+    text-shadow: 0 0 5px #FFB90F;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
 .background-particles {
     position: fixed;
     top: 0;
@@ -163,23 +196,21 @@ button:hover {
     100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
 }
 
-/* Glitch effect */
-@keyframes glitch {
-    0% { text-shadow: 2px 2px 5px rgba(0, 255, 255, 0.6), -2px -2px 5px rgba(0, 255, 255, 0.3); }
-    25% { text-shadow: -2px -2px 5px rgba(0, 255, 255, 0.6), 2px 2px 5px rgba(0, 255, 255, 0.3); }
-    50% { text-shadow: 2px -2px 5px rgba(0, 255, 255, 0.6), -2px 2px 5px rgba(0, 255, 255, 0.3); }
-    75% { text-shadow: -2px 2px 5px rgba(0, 255, 255, 0.6), 2px -2px 5px rgba(0, 255, 255, 0.3); }
-    100% { text-shadow: 2px 2px 5px rgba(0, 255, 255, 0.6), -2px -2px 5px rgba(0, 255, 255, 0.3); }
+.glitch-effect {
+    animation: glitch 1s linear infinite;
 }
 
-.glitch-effect {
-    animation: glitch 1s infinite;
+@keyframes glitch {
+    0% { text-shadow: 2px 2px 0 red, -2px -2px 0 blue; transform: translate(2px, 2px); }
+    50% { text-shadow: -2px -2px 0 red, 2px 2px 0 blue; transform: translate(-2px, -2px); }
+    100% { text-shadow: 2px 2px 0 red, -2px -2px 0 blue; transform: translate(2px, 2px); }
 }
 </style>
 </head>
 <body>
 
 <div class="background-particles" id="particles"></div>
+<div id="christmas-particles"></div>
 
 <div class="container">
     <div class="typewriter">
@@ -214,47 +245,66 @@ function createParticles() {
     }
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+function createChristmasParticles() {
+    const container = document.getElementById('christmas-particles');
+    const particles = ['❄️', '⭐', '🔔', '🎄', '🎁'];
+    const classes = ['snowflake', 'star', 'bell', 'tree', 'gift'];
+    
+    setInterval(() => {
+        const particle = document.createElement('div');
+        const index = Math.floor(Math.random() * particles.length);
+        const char = particles[index];
+        const className = classes[index];
+        
+        particle.classList.add('christmas-particle', className);
+        particle.innerHTML = char;
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.animationDuration = Math.random() * 3 + 2 + 's';
+        container.appendChild(particle);
+        
+        setTimeout(() => {
+            particle.remove();
+        }, 4000);
+    }, 500);
 }
 
-async function showMessages(username) {
-    const messages = [
-        `Oh ${username}... ✨`,
-        "Veo que visitaste nuestra página web :D! 🌟",
-        "Pues... 💫",
-        "¡Bienvenido a Azura Network! 🚀"
-    ];
-    
-    const messageElements = document.querySelectorAll('.message');
-    
-    for (let i = 0; i < messages.length; i++) {
-        messageElements[i].innerText = messages[i];
-        messageElements[i].classList.add('visible');
-        await sleep(2000); // Wait before showing next message
-    }
-
-    // Play sound and add glitch effect
-    document.getElementById('victorySound').play();
-    document.getElementById('greeting').classList.add('glitch-effect');
-    
-    await sleep(10000); // Wait for sound to finish
-
-    // Redirection after glitch effect
-    window.location.href = "inicio.html";
+function playSound() {
+    const sound = document.getElementById('victorySound');
+    sound.play();
 }
 
 function updateName() {
     const username = document.getElementById('username').value;
-    if (username.trim() !== "") {
-        showMessages(username);
-    } else {
-        alert("Por favor, ingresa tu nombre.");
+    if (username) {
+        document.getElementById('greeting').textContent = `Hola ${username}`;
+        setTimeout(() => {
+            document.getElementById('msg1').textContent = `Bienvenido, ${username}`;
+            document.getElementById('msg2').textContent = "Te redirigiré en 10 segundos...";
+            document.getElementById('msg1').classList.add('visible');
+            document.getElementById('msg2').classList.add('visible');
+        }, 500);
+
+        setTimeout(() => {
+            document.getElementById('msg3').textContent = "¡Feliz aventura!";
+            document.getElementById('msg4').textContent = "Redirigiendo...";
+            document.getElementById('msg3').classList.add('visible');
+            document.getElementById('msg4').classList.add('visible');
+            playSound();
+        }, 3000);
+
+        setTimeout(() => {
+            document.body.classList.add('glitch-effect');
+            setTimeout(() => {
+                window.location.href = 'Inicio.html';
+            }, 1000);
+        }, 7000);
     }
 }
 
-createParticles();
+window.onload = () => {
+    createParticles();
+    createChristmasParticles();
+}
 </script>
-
 </body>
 </html>
