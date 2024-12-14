@@ -1,419 +1,318 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mine-Download - Inicio</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+<html><head><base href="." />
+<title>Welcome to Azura Network</title>
+<style>
+body {
+    background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 100%);
+    color: #00ffff;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+    overflow: hidden;
+}
 
-        :root {
-            --primary: #ff3636;
-            --secondary: #131313;
-            --background: #1a1a1a;
-            --text: #FFFFFF;
-        }
+.container {
+    background: rgba(26, 26, 74, 0.4);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(0, 255, 255, 0.1);
+    animation: float 6s ease-in-out infinite;
+}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
 
-        body {
-            font-family: 'VT323', monospace;
-            background-color: var(--secondary);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-            background-image: url('https://example.com/path/to/minecraft_background.png');
-            background-attachment: fixed;
-            background-size: cover;
-        }
+.typewriter {
+    overflow: hidden;
+    border-right: .15em solid #00ffff;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: 
+        typing 3.5s steps(40, end),
+        blink-caret .75s step-end infinite;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+.typewriter h1 {
+    margin: 0;
+    font-size: 2.5em;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
 
-        header {
-            background-color: rgba(29, 29, 29);
-            border-bottom: 4px solid #373737;
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
+.message {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 20px 0;
+    font-size: 1.4em;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
+.message.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-        nav ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: center;
-        }
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
 
-        nav ul li {
-            margin: 0 15px;
-        }
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #00ffff }
+}
 
-        nav ul li a {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 24px;
-            transition: all 0.3s;
-            position: relative;
-            padding: 5px 10px;
-        }
+input {
+    background: rgba(26, 26, 74, 0.6);
+    border: 2px solid #00ffff;
+    color: #00ffff;
+    padding: 15px 25px;
+    margin: 30px 0;
+    font-family: 'Courier New', monospace;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 400px;
+    font-size: 1.2em;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+}
 
-        nav ul li a::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--primary);
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
+input:focus {
+    outline: none;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+    transform: scale(1.02);
+    background: rgba(26, 26, 74, 0.8);
+}
 
-        nav ul li a:hover::before {
-            transform: scaleX(1);
-        }
+button {
+    background: linear-gradient(45deg, #1a1a4a, #2a2a6a);
+    border: 2px solid #00ffff;
+    color: #00ffff;
+    padding: 15px 35px;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px;
+    font-size: 1.2em;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
 
-        nav ul li a:hover {
-            color: var(--primary);
-            text-shadow: 0 0 5px var(--primary);
-        }
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
 
-        h1 {
-            text-align: center;
-            color: var(--primary);
-            text-shadow: 2px 2px #3F3F3F, 0 0 10px var(--primary);
-            font-size: 60px;
-            margin-top: 40px;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
+button:hover::before {
+    width: 300px;
+    height: 300px;
+}
 
-        @keyframes glow {
-            from {
-                text-shadow: 2px 2px #3F3F3F, 0 0 10px var(--primary);
-            }
-            to {
-                text-shadow: 2px 2px #3F3F3F, 0 0 20px var(--primary), 0 0 30px var(--primary);
-            }
-        }
+button:hover {
+    background: linear-gradient(45deg, #2a2a6a, #3a3a8a);
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+}
 
-        .content {
-            background-color: #443c3ccc;
-            border: 4px solid #1a1a1a;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 0 20px rgba(31, 29, 29, 0.5);
-            transition: transform 0.3s, box-shadow 0.3s;
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-        }
+.christmas-particle {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    animation: fall linear infinite;
+}
 
-        .content:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 30px #1a1a1a;
-        }
+.snowflake {
+    color: #fff;
+    text-shadow: 0 0 5px #fff;
+}
 
-        .welcome-message {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: var(--primary);
-        }
+.star {
+    color: #FFD700;
+    text-shadow: 0 0 5px #FFD700;
+}
 
-        .featured-downloads {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
+.bell {
+    color: #FFB90F;
+    text-shadow: 0 0 5px #FFB90F;
+}
 
-        .download-item {
-            background-color: #574b4b;
-            border: 2px solid #574b4b;
-            padding: 20px;
-            margin: 10px;
-            width: calc(33.33% - 20px);
-            text-align: center;
-            transition: all 0.3s;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
 
-        .download-item::before {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: -100%;
-            width: 300%;
-            height: 300%;
-            background: linear-gradient(45deg, transparent, #572626, transparent);
-            transition: all 0.5s;
-        }
+.background-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
 
-        .download-item:hover::before {
-            top: 100%;
-            left: 100%;
-        }
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(0, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: float-particle 15s infinite linear;
+}
 
-        .download-item:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: 0 0 20px #1a1a1a;
-        }
-
-        .download-item img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 15px;
-            transition: transform 0.5s;
-        }
-
-        .download-item:hover img {
-            transform: rotate(360deg) scale(1.2);
-        }
-
-        .download-item h3 {
-            margin: 10px 0;
-            color: var(--primary);
-            font-size: 24px;
-        }
-
-        .download-item p {
-            font-size: 18px;
-        }
-
-        #musicControl {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--primary);
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-family: 'VT323', monospace;
-            font-size: 18px;
-            transition: all 0.3s;
-            border-radius: 5px;
-            z-index: 1000;
-        }
-
-        #musicControl:hover {
-            background-color: #572626;
-            transform: scale(1.1);
-        }
-
-        .ad-space {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #443c3ccc;
-            border: 2px solid #373737;
-            text-align: center;
-            border-radius: 10px;
-        }
-
-        .ad-space h2 {
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        #languageSelector {
-            background-color: var(--primary);
-            color: #000;
-            border: none;
-            padding: 5px 10px;
-            font-family: 'VT323', monospace;
-            font-size: 18px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        #languageSelector:hover {
-            background-color: #572626;
-            transform: scale(1.05);
-        }
-
-        @media (max-width: 768px) {
-            .download-item {
-                width: calc(50% - 20px);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .download-item {
-                width: 100%;
-            }
-        }
-    </style>
+@keyframes float-particle {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+}
+</style>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html" class="translate" data-translate="home">Inicio</a></li>
-                <li><a href="descargas.html" class="translate" data-translate="downloads">Descargas</a></li>
-                <li><a href="discord.html" class="translate" data-translate="discord">Discord</a></li>
-            </ul>
-            <select id="languageSelector">
-                <option value="es">Español</option>
-                <option value="en">English</option>
-                <option value="ru">Русский</option>
-            </select>
-        </nav>
-    </header>
-    <div class="container">
-        <h1 class="translate" data-translate="welcome">Bienvenido a Mine-Download</h1>
-        <div class="content">
-            <p class="welcome-message translate" data-translate="welcomeMessage">Tu fuente confiable para descargas de Minecraft Bedrock y Pocket Edition</p>
-            <div class="featured-downloads">
-                <div class="download-item">
-                    <img src="https://minecraft.wiki/images/Bedrock_JE2_BE2.png?feb6" alt="Minecraft Bedrock">
-                    <h3>Minecraft Bedrock</h3>
-                    <p class="translate" data-translate="latestVersion">Última versión disponible</p>
-                </div>
-                <div class="download-item">
-                    <img src="https://img.icons8.com/color/48/000000/minecraft-grass-cube.png" alt="Minecraft Pocket Edition">
-                    <h3>Minecraft Pocket Edition</h3>
-                    <p class="translate" data-translate="mobileDevices">Para dispositivos móviles</p>
-                </div>
-                <div class="download-item">
-                    <img src="https://img.icons8.com/color/48/000000/minecraft-pickaxe.png" alt="Mods populares">
-                    <h3 class="translate" data-translate="popularMods">Mods Populares</h3>
-                    <p class="translate" data-translate="enhanceExperience">Mejora tu experiencia de juego</p>
-                </div>
-            </div>
-        </div>
-        <div class="ad-space">
-            <h2 class="translate" data-translate="ads">Anuncios</h2>
-            <!-- Espacio para el anuncio de AdSense -->
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- Anuncio Mine-Download -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                 data-ad-slot="XXXXXXXXXX"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
+
+<div class="background-particles" id="particles"></div>
+<div id="christmas-particles"></div>
+
+<div class="container">
+    <div class="typewriter">
+        <h1 id="greeting">Hola Usuario</h1>
     </div>
-    <audio id="backgroundMusic" loop>
-        <source src="https://example.com/path/to/minecraft_background_music.mp3" type="audio/mpeg">
-        Tu navegador no soporta el elemento de audio.
+
+    <input type="text" id="username" placeholder="✨ Ingresa tu nombre aquí ✨" autocomplete="off">
+    <button onclick="updateName()">Ya puse mi nick/nombre</button>
+
+    <div id="welcomeMessages">
+        <p class="message" id="msg1"></p>
+        <p class="message" id="msg2"></p>
+        <p class="message" id="msg3"></p>
+        <p class="message" id="msg4"></p>
+    </div>
+    
+    <audio id="victorySound">
+        <source src="FNAF - 6 AM sound.mp3" type="audio/mp3">
     </audio>
-    <button id="musicControl" class="translate" data-translate="musicOff">Música: Off</button>
-    <script>
-        const music = document.getElementById('backgroundMusic');
-        const musicControl = document.getElementById('musicControl');
-        let isMusicPlaying = false;
+</div>
 
-        musicControl.addEventListener('click', () => {
-            if (isMusicPlaying) {
-                music.pause();
-                musicControl.textContent = translations[currentLanguage].musicOff;
-            } else {
-                music.play();
-                musicControl.textContent = translations[currentLanguage].musicOn;
-            }
-            isMusicPlaying = !isMusicPlaying;
-        });
+<script>
+function createParticles() {
+    const container = document.getElementById('particles');
+    for(let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.opacity = Math.random();
+        container.appendChild(particle);
+    }
+}
 
-        // Animación de aparición para los elementos de descarga
-        const downloadItems = document.querySelectorAll('.download-item');
-        downloadItems.forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(50px)';
-            setTimeout(() => {
-                item.style.transition = 'opacity 0.5s, transform 0.5s';
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-            }, 300 * (index + 1));
-        });
+function createChristmasParticles() {
+    const container = document.getElementById('christmas-particles');
+    const particles = ['❄️', '⭐', '🔔', '🎄', '🎁'];
+    const classes = ['snowflake', 'star', 'bell', 'tree', 'gift'];
+    
+    setInterval(() => {
+        const particle = document.createElement('div');
+        const index = Math.floor(Math.random() * particles.length);
+        particle.className = `christmas-particle ${classes[index]}`;
+        particle.textContent = particles[index];
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+        particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        container.appendChild(particle);
 
-        // Traducciones
-        const translations = {
-            es: {
-                home: "Inicio",
-                downloads: "Descargas",
-                discord: "Discord",
-                welcome: "Bienvenido a Mine-Download",
-                welcomeMessage: "Tu fuente confiable para descargas de Minecraft Bedrock y Pocket Edition",
-                latestVersion: "Última versión disponible",
-                mobileDevices: "Para dispositivos móviles",
-                popularMods: "Mods Populares",
-                enhanceExperience: "Mejora tu experiencia de juego",
-                ads: "Anuncios",
-                musicOff: "Música: Off",
-                musicOn: "Música: On"
-            },
-            en: {
-                home: "Home",
-                downloads: "Downloads",
-                discord: "Discord",
-                welcome: "Welcome to Mine-Download",
-                welcomeMessage: "Your trusted source for Minecraft Bedrock and Pocket Edition downloads",
-                latestVersion: "Latest version available",
-                mobileDevices: "For mobile devices",
-                popularMods: "Popular Mods",
-                enhanceExperience: "Enhance your gaming experience",
-                ads: "Advertisements",
-                musicOff: "Music: Off",
-                musicOn: "Music: On"
-            },
-            ru: {
-                home: "Главная",
-                downloads: "Загрузки",
-                discord: "Discord",
-                welcome: "Добро пожаловать на Mine-Download",
-                welcomeMessage: "Ваш надежный источник загрузок Minecraft Bedrock и Pocket Edition",
-                latestVersion: "Доступна последняя версия",
-                mobileDevices: "Для мобильных устройств",
-                popularMods: "Популярные моды",
-                enhanceExperience: "Улучшите свой игровой опыт",
-                ads: "Реклама",
-                musicOff: "Музыка: Выкл",
-                musicOn: "Музыка: Вкл"
-            }
-        };
+        setTimeout(() => {
+            particle.remove();
+        }, 10000);
+    }, 200);
+}
 
-        let currentLanguage = 'es';
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-        function translatePage(language) {
-            currentLanguage = language;
-            document.querySelectorAll('.translate').forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (translations[language][key]) {
-                    element.textContent = translations[language][key];
-                }
-            });
-            if (isMusicPlaying) {
-                musicControl.textContent = translations[language].musicOn;
-            } else {
-                musicControl.textContent = translations[language].musicOff;
+async function showMessages(username) {
+    const messages = [
+        `Oh ${username}... ✨`,
+        "Veo que visitaste nuestra página web :D! 🌟",
+        "Pues... 💫",
+        "¡Bienvenido a Azura Network! 🚀"
+    ];
+    
+    const messageElements = document.querySelectorAll('.message');
+    
+    for(let i = 0; i < messages.length; i++) {
+        await sleep(1200);
+        messageElements[i].textContent = messages[i];
+        messageElements[i].classList.add('visible');
+        
+        // Play the victory sound when showing the final message
+        if (i === messages.length - 1) {
+            const audio = document.getElementById('victorySound');
+            try {
+                await audio.play();
+            } catch (err) {
+                console.log('Audio playback failed:', err);
             }
         }
+    }
+    
+    await sleep(2500);
+    window.location.href = 'https://websim.ai/p/_8hx1hrkzxzltdjny6hu/33';
+}
 
-        document.getElementById('languageSelector').addEventListener('change', (event) => {
-            translatePage(event.target.value);
-        });
-    </script>
-</body>
-</html>
+function updateName() {
+    const username = document.getElementById('username').value;
+    if(username.trim() !== '') {
+        document.getElementById('greeting').textContent = `Hola ${username}`;
+        document.getElementById('username').style.display = 'none';
+        document.querySelector('button').style.display = 'none';
+        showMessages(username);
+    } else {
+        const input = document.getElementById('username');
+        input.style.animation = 'shake 0.5s ease-in-out';
+        setTimeout(() => input.style.animation = '', 500);
+        input.placeholder = '⚠️ Por favor ingresa un nombre ⚠️';
+    }
+}
+
+document.getElementById('username').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        updateName();
+    }
+});
+
+// Initialize particles on load
+createParticles();
+createChristmasParticles();
+</script>
+
+</body></html>
