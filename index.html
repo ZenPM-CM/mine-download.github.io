@@ -193,106 +193,52 @@ button:active {
     pointer-events: none;
     z-index: -1;
 }
-
-.particle {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: rgba(0, 255, 255, 0.5);
-    border-radius: 50%;
-    animation: float-particle 15s infinite linear;
-}
-
-@keyframes float-particle {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    50% { opacity: 0.8; }
-    100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
-}
-
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
-
-@keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: #00ffff }
-}
 </style>
 </head>
 <body>
 
-<div class="background-particles" id="particles"></div>
-<div id="christmas-particles"></div>
-
 <div class="container">
     <div class="typewriter">
-        <h1 id="greeting">Hola Usuario</h1>
+        <h1>Welcome to Azura Network</h1>
     </div>
 
-    <input type="text" id="username" placeholder="✨ Ingresa tu nombre aquí ✨" autocomplete="off">
-    <button onclick="updateName()">Ya puse mi nick/nombre</button>
-
-    <div id="welcomeMessages">
-        <p class="message" id="msg1"></p>
-        <p class="message" id="msg2"></p>
-        <p class="message" id="msg3"></p>
-        <p class="message" id="msg4"></p>
-    </div>
-    
-    <audio id="audio" src="FNAF - 6 AM sound [ ezmp3.cc ].mp3"></audio>
+    <button onclick="playSound()">Play Sound and Redirect</button>
+    <div class="message" id="message">Redirecting soon...</div>
 </div>
 
+<audio id="sound" src="your-audio-file.mp3" preload="auto"></audio>
+
 <script>
-function playSound() {
-    const audio = document.getElementById("audio");
-    audio.play();
-}
+    const audio = document.getElementById('sound');
+    const message = document.getElementById('message');
 
-function createParticle() {
-    const particlesContainer = document.getElementById("christmas-particles");
-    const particle = document.createElement("div");
-    particle.classList.add("christmas-particle");
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.animationDuration = `${Math.random() * 2 + 3}s`;
-    particlesContainer.appendChild(particle);
-    setTimeout(() => particlesContainer.removeChild(particle), 3000);
-}
-
-function showMessages() {
-    const messages = ["¡Bienvenido!", "Estamos felices de verte.", "Disfruta de tu experiencia.", "¡Que tengas un gran día!"];
-    let delay = 0;
-    messages.forEach((message, index) => {
-        setTimeout(() => {
-            const msgElement = document.getElementById(`msg${index + 1}`);
-            msgElement.textContent = message;
-            msgElement.classList.add("visible");
-        }, delay);
-        delay += 1500;
-    });
-}
-
-function updateName() {
-    const usernameInput = document.getElementById("username");
-    const greeting = document.getElementById("greeting");
-    const username = usernameInput.value.trim();
-
-    if (username) {
-        greeting.textContent = `Bienvenido, ${username}!`;
-        usernameInput.disabled = true;
-        playSound();
-        showMessages();
-    } else {
-        usernameInput.style.borderColor = 'red';
-        setTimeout(() => usernameInput.style.borderColor = '#00ffff', 500);
+    // Función para reproducir el sonido y redirigir después
+    function playSound() {
+        audio.play();
+        message.classList.add('visible'); // Muestra el mensaje
+        audio.onended = () => {
+            // Redirigir después de que se termine el sonido
+            window.location.href = 'https://zenpm-cm.github.io/mine-download.github.io/inicio.html';
+        };
     }
-}
 
-// Generar partículas de navidad
-setInterval(createParticle, 100);
+    // Crear partículas de Navidad
+    function createParticles() {
+        const particleCount = 30;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('christmas-particle');
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = Math.random() * 4 + 3 + 's';
+            document.querySelector('.background-particles').appendChild(particle);
+        }
+    }
 
-// Llamar la función para mostrar el mensaje después de interactuar
+    // Crear las partículas al cargar la página
+    createParticles();
 </script>
+
+<div class="background-particles"></div>
 
 </body>
 </html>
