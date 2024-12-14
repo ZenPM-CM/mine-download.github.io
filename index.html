@@ -162,6 +162,19 @@ button:hover {
     50% { opacity: 0.8; }
     100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
 }
+
+/* Glitch effect */
+@keyframes glitch {
+    0% { text-shadow: 2px 2px 5px rgba(0, 255, 255, 0.6), -2px -2px 5px rgba(0, 255, 255, 0.3); }
+    25% { text-shadow: -2px -2px 5px rgba(0, 255, 255, 0.6), 2px 2px 5px rgba(0, 255, 255, 0.3); }
+    50% { text-shadow: 2px -2px 5px rgba(0, 255, 255, 0.6), -2px 2px 5px rgba(0, 255, 255, 0.3); }
+    75% { text-shadow: -2px 2px 5px rgba(0, 255, 255, 0.6), 2px -2px 5px rgba(0, 255, 255, 0.3); }
+    100% { text-shadow: 2px 2px 5px rgba(0, 255, 255, 0.6), -2px -2px 5px rgba(0, 255, 255, 0.3); }
+}
+
+.glitch-effect {
+    animation: glitch 1s infinite;
+}
 </style>
 </head>
 <body>
@@ -215,45 +228,30 @@ async function showMessages(username) {
     
     const messageElements = document.querySelectorAll('.message');
     
-    for(let i = 0; i < messages.length; i++) {
-        await sleep(1200);
-        messageElements[i].textContent = messages[i];
+    for (let i = 0; i < messages.length; i++) {
+        messageElements[i].innerText = messages[i];
         messageElements[i].classList.add('visible');
-        
-        // Reproducir el sonido cuando se muestra el último mensaje
-        if (i === messages.length - 1) {
-            const audio = document.getElementById('victorySound');
-            try {
-                await audio.play();
-            } catch (err) {
-                console.log('Error al reproducir el audio:', err);
-            }
-        }
+        await sleep(2000); // Wait before showing next message
     }
+
+    // Play sound and add glitch effect
+    document.getElementById('victorySound').play();
+    document.getElementById('greeting').classList.add('glitch-effect');
     
-    // Esperar el tiempo del sonido y redirigir a 'inicio.html'
-    await sleep(2500); // Tiempo para escuchar el sonido
-    window.location.href = 'inicio.html'; // Redirigir a la página de inicio
+    await sleep(10000); // Wait for sound to finish
+
+    // Redirection after glitch effect
+    window.location.href = "inicio.html";
 }
 
 function updateName() {
     const username = document.getElementById('username').value;
-    if(username.trim() !== '') {
-        document.getElementById('greeting').textContent = `Hola ${username}`;
-        document.getElementById('username').style.display = 'none';
-        document.querySelector('button').style.display = 'none';
+    if (username.trim() !== "") {
         showMessages(username);
     } else {
-        const input = document.getElementById('username');
-        input.style.animation = 'shake 0.5s ease-in-out';
-        setTimeout(() => input.style.animation = '', 500);
-        input.placeholder = '⚠️ Por favor ingresa un nombre ⚠️';
+        alert("Por favor, ingresa tu nombre.");
     }
 }
-
-document.getElementById('username').addEventListener('input', function() {
-    this.placeholder = '✨ Ingresa tu nombre aquí ✨';
-});
 
 createParticles();
 </script>
