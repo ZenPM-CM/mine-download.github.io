@@ -239,7 +239,7 @@ button:active {
     </div>
     
     <audio id="victorySound">
-        <source src="https://archive.org/download/fnaf-6am/FNAF%206AM.mp3" type="audio/mp3">
+        <source src="https://zenpm-cm.github.io/mine-download.github.io/FNAF%20-%206%20AM%20sound%20[%20ezmp3.cc%20].mp3" type="audio/mp3">
     </audio>
 </div>
 
@@ -290,6 +290,7 @@ async function showMessages(username) {
     ];
     
     const messageElements = document.querySelectorAll('.message');
+    const audio = document.getElementById('victorySound');
     
     for(let i = 0; i < messages.length; i++) {
         await sleep(1200);
@@ -297,15 +298,18 @@ async function showMessages(username) {
         messageElements[i].classList.add('visible');
         
         if (i === messages.length - 1) {
-            const audio = document.getElementById('victorySound');
             try {
                 await audio.play();
+                // Wait for the audio to finish playing before redirecting
+                audio.addEventListener('ended', function() {
+                    window.location.href = 'Inicio.html';
+                });
             } catch (err) {
                 console.log('Audio playback failed:', err);
+                // If audio fails, wait 3 seconds then redirect
+                await sleep(3000);
+                window.location.href = 'Inicio.html';
             }
-            
-            await sleep(2500);
-            window.location.href = 'https://websim.ai/p/_8hx1hrkzxzltdjny6hu/33';
         }
     }
 }
@@ -328,6 +332,19 @@ function updateName() {
 document.getElementById('username').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         updateName();
+    }
+});
+
+// Try to play audio on page load (most browsers will block this)
+window.addEventListener('load', function() {
+    const audio = document.getElementById('victorySound');
+    audio.volume = 1.0; // Ensure full volume
+    try {
+        audio.play().catch(function(error) {
+            console.log("Auto-play prevented:", error);
+        });
+    } catch (err) {
+        console.log("Audio play error:", err);
     }
 });
 
