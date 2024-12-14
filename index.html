@@ -1,4 +1,5 @@
-<html><head><base href="." />
+<html>
+<head><base href="." />
 <title>Welcome to Azura Network</title>
 <style>
 body {
@@ -137,39 +138,6 @@ button:hover {
     box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
 }
 
-.christmas-particle {
-    position: absolute;
-    pointer-events: none;
-    user-select: none;
-    animation: fall linear infinite;
-}
-
-.snowflake {
-    color: #fff;
-    text-shadow: 0 0 5px #fff;
-}
-
-.star {
-    color: #FFD700;
-    text-shadow: 0 0 5px #FFD700;
-}
-
-.bell {
-    color: #FFB90F;
-    text-shadow: 0 0 5px #FFB90F;
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(-10vh) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-    }
-}
-
 .background-particles {
     position: fixed;
     top: 0;
@@ -199,7 +167,6 @@ button:hover {
 <body>
 
 <div class="background-particles" id="particles"></div>
-<div id="christmas-particles"></div>
 
 <div class="container">
     <div class="typewriter">
@@ -234,27 +201,6 @@ function createParticles() {
     }
 }
 
-function createChristmasParticles() {
-    const container = document.getElementById('christmas-particles');
-    const particles = ['❄️', '⭐', '🔔', '🎄', '🎁'];
-    const classes = ['snowflake', 'star', 'bell', 'tree', 'gift'];
-    
-    setInterval(() => {
-        const particle = document.createElement('div');
-        const index = Math.floor(Math.random() * particles.length);
-        particle.className = `christmas-particle ${classes[index]}`;
-        particle.textContent = particles[index];
-        particle.style.left = Math.random() * 100 + 'vw';
-        particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
-        particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
-        container.appendChild(particle);
-
-        setTimeout(() => {
-            particle.remove();
-        }, 10000);
-    }, 200);
-}
-
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -274,19 +220,20 @@ async function showMessages(username) {
         messageElements[i].textContent = messages[i];
         messageElements[i].classList.add('visible');
         
-        // Play the victory sound when showing the final message
+        // Reproducir el sonido cuando se muestra el último mensaje
         if (i === messages.length - 1) {
             const audio = document.getElementById('victorySound');
             try {
                 await audio.play();
             } catch (err) {
-                console.log('Audio playback failed:', err);
+                console.log('Error al reproducir el audio:', err);
             }
         }
     }
     
-    await sleep(2500);
-    window.location.href = 'https://websim.ai/p/_8hx1hrkzxzltdjny6hu/33';
+    // Esperar el tiempo del sonido y redirigir a 'inicio.html'
+    await sleep(2500); // Tiempo para escuchar el sonido
+    window.location.href = 'inicio.html'; // Redirigir a la página de inicio
 }
 
 function updateName() {
@@ -304,15 +251,12 @@ function updateName() {
     }
 }
 
-document.getElementById('username').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        updateName();
-    }
+document.getElementById('username').addEventListener('input', function() {
+    this.placeholder = '✨ Ingresa tu nombre aquí ✨';
 });
 
-// Initialize particles on load
 createParticles();
-createChristmasParticles();
 </script>
 
-</body></html>
+</body>
+</html>
