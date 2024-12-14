@@ -1,4 +1,6 @@
-<html><head><base href="." />
+<html>
+<head>
+<base href="." />
 <title>Welcome to Azura Network</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
@@ -238,118 +240,59 @@ button:active {
         <p class="message" id="msg4"></p>
     </div>
     
-    <audio id="victorySound">
-        <source src="https://zenpm-cm.github.io/mine-download.github.io/FNAF%20-%206%20AM%20sound%20[%20ezmp3.cc%20].mp3" type="audio/mp3">
-    </audio>
+    <audio id="audio" src="path/to/your/sound.mp3"></audio>
 </div>
 
 <script>
-function createParticles() {
-    const container = document.getElementById('particles');
-    for(let i = 0; i < 50; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + 'vw';
-        particle.style.animationDelay = Math.random() * 15 + 's';
-        particle.style.opacity = Math.random();
-        container.appendChild(particle);
-    }
+function playSound() {
+    const audio = document.getElementById("audio");
+    audio.play();
 }
 
-function createChristmasParticles() {
-    const container = document.getElementById('christmas-particles');
-    const particles = ['❄️', '⭐', '🔔', '🎄', '🎁'];
-    const classes = ['snowflake', 'star', 'bell', 'tree', 'gift'];
-    
-    setInterval(() => {
-        const particle = document.createElement('div');
-        const index = Math.floor(Math.random() * particles.length);
-        particle.className = `christmas-particle ${classes[index]}`;
-        particle.textContent = particles[index];
-        particle.style.left = Math.random() * 100 + 'vw';
-        particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
-        particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
-        container.appendChild(particle);
+function createParticle() {
+    const particlesContainer = document.getElementById("christmas-particles");
+    const particle = document.createElement("div");
+    particle.classList.add("christmas-particle");
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.animationDuration = `${Math.random() * 2 + 3}s`;
+    particlesContainer.appendChild(particle);
+    setTimeout(() => particlesContainer.removeChild(particle), 3000);
+}
 
+function showMessages() {
+    const messages = ["¡Bienvenido!", "Estamos felices de verte.", "Disfruta de tu experiencia.", "¡Que tengas un gran día!"];
+    let delay = 0;
+    messages.forEach((message, index) => {
         setTimeout(() => {
-            particle.remove();
-        }, 10000);
-    }, 200);
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function showMessages(username) {
-    const messages = [
-        `Oh ${username}... ✨`,
-        "Veo que visitaste nuestra página web :D! 🌟",
-        "Pues... 💫",
-        "¡Bienvenido a Azura Network! 🚀"
-    ];
-    
-    const messageElements = document.querySelectorAll('.message');
-    const audio = document.getElementById('victorySound');
-    
-    for(let i = 0; i < messages.length; i++) {
-        await sleep(1200);
-        messageElements[i].textContent = messages[i];
-        messageElements[i].classList.add('visible');
-        
-        if (i === messages.length - 1) {
-            try {
-                await audio.play();
-                // Wait for the audio to finish playing before redirecting
-                audio.addEventListener('ended', function() {
-                    window.location.href = 'Inicio.html';
-                });
-            } catch (err) {
-                console.log('Audio playback failed:', err);
-                // If audio fails, wait 3 seconds then redirect
-                await sleep(3000);
-                window.location.href = 'Inicio.html';
-            }
-        }
-    }
+            const msgElement = document.getElementById(`msg${index + 1}`);
+            msgElement.textContent = message;
+            msgElement.classList.add("visible");
+        }, delay);
+        delay += 1500;
+    });
 }
 
 function updateName() {
-    const username = document.getElementById('username').value;
-    if(username.trim() !== '') {
-        document.getElementById('greeting').textContent = `Hola ${username}`;
-        document.getElementById('username').style.display = 'none';
-        document.querySelector('button').style.display = 'none';
-        showMessages(username);
+    const usernameInput = document.getElementById("username");
+    const greeting = document.getElementById("greeting");
+    const username = usernameInput.value.trim();
+
+    if (username) {
+        greeting.textContent = `Bienvenido, ${username}!`;
+        usernameInput.disabled = true;
+        playSound();
+        showMessages();
     } else {
-        const input = document.getElementById('username');
-        input.style.animation = 'shake 0.5s ease-in-out';
-        setTimeout(() => input.style.animation = '', 500);
-        input.placeholder = '⚠️ Por favor ingresa un nombre ⚠️';
+        usernameInput.style.borderColor = 'red';
+        setTimeout(() => usernameInput.style.borderColor = '#00ffff', 500);
     }
 }
 
-document.getElementById('username').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        updateName();
-    }
-});
+// Generar partículas de navidad
+setInterval(createParticle, 100);
 
-// Try to play audio on page load (most browsers will block this)
-window.addEventListener('load', function() {
-    const audio = document.getElementById('victorySound');
-    audio.volume = 1.0; // Ensure full volume
-    try {
-        audio.play().catch(function(error) {
-            console.log("Auto-play prevented:", error);
-        });
-    } catch (err) {
-        console.log("Audio play error:", err);
-    }
-});
-
-createParticles();
-createChristmasParticles();
+// Llamar la función para mostrar el mensaje después de interactuar
 </script>
 
-</body></html>
+</body>
+</html>
